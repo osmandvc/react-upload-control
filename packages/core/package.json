@@ -1,6 +1,6 @@
 {
   "name": "react-upload-control",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha.1",
   "description": "A completely free and open-source file uploader library designed for modern react applications. This package focuses on delivering a feature-rich experience while prioritizing an exceptional developer experience (DX). Whether you're handling simple uploads or complex multi-file scenarios, this library offers powerful customization, seamless integration, and a smooth workflow for developers. Perfect for those who need an efficient, flexible, and easy-to-use file uploader solution in their projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,6 +11,9 @@
     "lint": "eslint src/**/*.ts src/**/*.tsx",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "react",

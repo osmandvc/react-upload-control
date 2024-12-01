@@ -19,16 +19,18 @@ React Upload Control is a free and open-source file uploader library designed fo
 
 ## Installation
 
+⚠️ **Alpha Release:** This package is in early development. Please use the `@alpha` tag when installing to get the latest alpha version.
+
 To install React Upload Control, use npm or yarn:
 
 ```bash
-npm install react-upload-control
+npm install react-upload-control@alpha
 ```
 
 or
 
 ```bash
-yarn add react-upload-control
+yarn add react-upload-control@alpha
 ```
 
 ## Getting Started
