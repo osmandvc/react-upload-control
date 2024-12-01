@@ -22,7 +22,20 @@
   },
   "keywords": [
     "react",
-    "react-upload"
+    "react-upload",
+    "file-upload",
+    "drag-and-drop",
+    "upload",
+    "typescript",
+    "react-component",
+    "file-uploader",
+    "react18",
+    "tailwindcss",
+    "camera-upload",
+    "image-upload",
+    "file-preview",
+    "multiple-upload",
+    "async-upload"
   ],
   "author": "Osman Deveci",
   "license": "MIT",
