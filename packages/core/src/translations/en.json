@@ -1,0 +1,40 @@
+{
+  "FileDropArea": {
+    "text": "Drop your files here",
+    "processingText": "Processing files...",
+    "validFilesText": "Allowed files are {types} with a maximum size of {maxFileSizeMb} MB"
+  },
+  "FileListActions": {
+    "successText": "Files successfully uploaded."
+  },
+  "FileUploadAllButton": {
+    "accept": "Confirm Files",
+    "retry": "Retry"
+  },
+  "FileDeleteAllButton": {
+    "reset": "Reset"
+  },
+  "FileList": {
+    "waitingText": "Waiting for files..."
+  },
+  "UploadedFilesManager": {
+    "multipleError": "Adding multiple files at once is not allowed.",
+    "maxFilesNumberError": "The number of maximum files ({maxFiles}) has been reached.",
+    "invalidFileError": "The file {fileName} is in a forbidden format. Allowed formats are {mimeTypes}.",
+    "fileSizeError": "The file {fileName} is too big.",
+    "unknownError": "An error occured: {error}"
+  },
+  "FileLoaderFileSystem": {
+    "text": "Browse files"
+  },
+  "FileLoaderCamera": {
+    "text": "Camera",
+    "allowCameraText": "If you get asked for camera access, please permit it.",
+    "cameraModalHeader": "Shoot picture",
+    "dropDownLabel": "Cameras",
+    "dropDownPlaceholder": "Please choose a camera",
+    "mediaErrorText": "Something went wrong while trying to load the camera. Error from the browser: {errorMediaString}",
+    "hintTitle": "Note",
+    "errorHintTitle": "Error"
+  }
+}

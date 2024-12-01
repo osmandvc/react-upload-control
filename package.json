@@ -1,0 +1,15 @@
+{
+  "name": "react-upload-control",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "cd packages/core && npm run build",
+    "dev": "cd packages/core && npm run start",
+    "test": "cd packages/core && npm run test",
+    "lint": "cd packages/core && npm run lint",
+    "storybook": "cd packages/core && npm run storybook",
+    "build-storybook": "cd packages/core && npm run build-storybook"
+  }
+}

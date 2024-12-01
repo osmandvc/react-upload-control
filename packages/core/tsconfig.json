@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext", // Use ESNext for modern module resolution
+    "moduleResolution": "node", // Set moduleResolution to "node"
+    "declaration": true, // Generate declaration files (.d.ts)
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "jsx": "react-jsx", // JSX support
+    "outDir": "./dist", // Output directory
+    "strict": true, // Strict type checking
+    "esModuleInterop": true, // Allow interoperability with CommonJS modules
+    "resolveJsonModule": true, // Enable importing .json files
+    "skipLibCheck": true // Skip type checking of declaration files from node_modules
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

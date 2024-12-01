@@ -1,0 +1,40 @@
+{
+  "FileDropArea": {
+    "text": "Hier klicken oder File ablegen",
+    "processingText": "Füge Seiten hinzu...",
+    "validFilesText": "Unterstützt werden {types} mit einer Größe bis zu {maxFileSizeMb} MB."
+  },
+  "FileListActions": {
+    "successText": "Die Dateien wurden erfolgreich hochgeladen."
+  },
+  "FileUploadAllButton": {
+    "accept": "Upload starten",
+    "retry": "Erneut versuchen"
+  },
+  "FileDeleteAllButton": {
+    "reset": "Zurücksetzen"
+  },
+  "FileList": {
+    "waitingText": "Warte auf Dateien..."
+  },
+  "UploadedFilesManager": {
+    "multipleError": "Bitte fügen Sie die Dateien einzeln hinzu.",
+    "maxFilesNumberError": "Die Anzahl an maximal erlaubten Dateien ({maxFiles}) wurde überschritten.",
+    "invalidFileError": "Die Datei {fileName} kann nicht hochgeladen werden. Unterstützt werden PDF, JPG, PNG und Office-Formate.",
+    "fileSizeError": "Die Datei {fileName} ist zu groß.",
+    "unknownError": "Ein Fehler ist aufgetreten: {error}"
+  },
+  "FileLoaderFileSystem": {
+    "text": "Durchsuchen"
+  },
+  "FileLoaderCamera": {
+    "text": "Kamera",
+    "allowCameraText": "Falls Sie dazu aufgefordert werden, erlauben Sie bitte den Kamerazugriff.",
+    "cameraModalHeader": "Bild schießen",
+    "dropDownLabel": "Kameras",
+    "dropDownPlaceholder": "Bitte wählen Sie eine Kamera",
+    "mediaErrorText": "Etwas ist beim Laden der Kamera schiefgelaufen. Fehler des Browsers: {errorMediaString}",
+    "hintTitle": "Hinweis",
+    "errorHintTitle": "Fehler"
+  }
+}
