@@ -8,14 +8,14 @@ React Upload Control is a free and open-source file uploader library designed fo
 - 📁 **Drag & Drop:** Intuitive file uploading with visual feedback and validation
 - 📷 **Camera Integration:** Capture photos directly from your device's camera
 - 📋 **File Management:** Drag-to-reorder capability for organizing user uploads in a specific order
+- 💻 **Developer Experience:** Simple API with comprehensive TypeScript support and documentation
 - 🌐 **Internationalization:** Built-in i18n support for multiple languages (currently English and German)
 - 🎨 **Beautiful UI:** Modern, responsive design powered by Tailwind CSS
 - 📱 **Mobile Ready:** Optimized experience across all device sizes
 - ⚡ **Async Processing:** Handle file uploads asynchronously with progress updates
-- 🔍 **File Preview:** Built-in preview support for images and documents
-- ⚙️ **Unopinionated:** You decide how and where files are uploaded
+- 🔍 **File Preview:** Built-in preview support for images
+- ⚙️ **Unopinionated:** You decide how and where files are uploaded, no vendor lock-in
 - 🔓 **Open Source:** Free to use and modify under the MIT license
-- 💻 **Developer Experience:** Simple API with comprehensive TypeScript support and documentation
 
 ## Installation
 
@@ -73,7 +73,7 @@ function MyFileUploadParent(props: PropsWithChildren) {
 
 ### FileUploadControl
 
-The main component that provides the file upload interface.
+The default component that provides the file upload interface with a FileList and FileDropArea.
 
 ```tsx
 <FileUploadControl

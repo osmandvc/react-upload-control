@@ -1,14 +1,5 @@
 import { PropsWithChildren } from "react";
 
-import {
-  DragDropContext,
-  DraggableProvided,
-  DraggableStateSnapshot,
-  DropResult,
-  ResponderProvided,
-} from "@hello-pangea/dnd";
-import { any } from "zod";
-
 export type FilePreProcessorFunction = (
   files: UploadedFilePublic[]
 ) => UploadedFilePublic[] | Promise<UploadedFilePublic[] | undefined>;
@@ -70,8 +61,13 @@ export type FileDropError = {
   };
 };
 
+export type DndResult = {
+  source: { index: number };
+  destination: { index: number };
+};
+
 export type FileListProps = {
-  onDragEnd: (result: DropResult, provided: ResponderProvided) => any;
+  onDragEnd: (result: DndResult) => any;
 };
 
 export interface FileUploadControlProps
@@ -98,8 +94,7 @@ export type FileListItemProps = {
   uploadStatus: UploadStatus;
   order?: number;
   count: number;
-  draggableProvided?: DraggableProvided;
-  draggableSnapshot?: DraggableStateSnapshot;
+  disabled?: boolean;
 };
 
 export enum FileDropErrorType {

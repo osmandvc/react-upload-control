@@ -1,4 +1,6 @@
 const path = require("path");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   entry: "./src/index.ts",
@@ -7,7 +9,7 @@ module.exports = {
     filename: "index.js",
     libraryTarget: "umd",
     library: "react-upload-control",
-    globalObject: "this", // Ensures compatibility with both browser and Node.js
+    globalObject: "this",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
@@ -40,8 +42,15 @@ module.exports = {
       amd: "react",
       root: "React",
     },
+    "react-dom": {
+      commonjs: "react-dom",
+      commonjs2: "react-dom",
+      amd: "react-dom",
+      root: "ReactDOM",
+    },
   },
   optimization: {
     minimize: true,
   },
+  plugins: [...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : [])],
 };

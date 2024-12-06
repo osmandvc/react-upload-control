@@ -1,4 +1,4 @@
-import { yellow, red } from "kleur";
+import kleur from "kleur";
 
 const VERBOSE = true;
 
@@ -64,11 +64,11 @@ export function formatError(e: any, doIncludeStack: boolean = true): string {
 export function consoleWarn(...args: any) {
   const warnings = args?.map((w: any) => formatError(w));
 
-  console.error(yellow("[CAUGHT WARN]: " + warnings.join(": ")));
+  console.error(kleur.yellow("[CAUGHT WARN]: " + warnings.join(": ")));
 }
 
 export function consoleError(...args: any) {
   const errors = args?.map((e: any) => formatError(e));
 
-  console.error(red("[CAUGHT ERROR]:" + errors.join(": ")));
+  console.error(kleur.red("[CAUGHT ERROR]:" + errors.join(": ")));
 }

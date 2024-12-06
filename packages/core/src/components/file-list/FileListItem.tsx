@@ -1,10 +1,10 @@
 import React from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 import { Progress } from "@/src/ui/progress";
 import { filesize } from "filesize";
-
 import { ImageZoom } from "@/src/ui/image-zoom";
-
 import { FileItemActions } from "../../actions";
 import {
   FileListItemProps,
@@ -40,11 +40,27 @@ export const FileListItem = ({
   previewImgSrc,
   id,
   uploadStatus,
-  draggableProvided,
-  draggableSnapshot,
   order,
   count,
+  disabled,
 }: FileListItemProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: id,
+    disabled: disabled,
+  });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
   if (uploadStatus.stage === UploadedFileItemStage.FAILED) {
     toast.error(
       `Failed to upload file ${name}. Reason: ${uploadStatus.error?.text}`
@@ -53,12 +69,13 @@ export const FileListItem = ({
 
   return (
     <div
+      ref={setNodeRef}
+      style={style}
       className={`flex flex-col rounded border duration-150 transition-transform-colors-opacity ${
-        draggableSnapshot?.isDragging ? "bg-gray-50/70" : ""
-      }`}
-      {...draggableProvided?.dragHandleProps}
+        isDragging ? "bg-gray-50/70" : ""}`}
+      {...attributes}
     >
-      <div className="flex items-center h-full gap-4">
+      <div className="flex gap-4 items-center h-full">
         {order && (
           <span className="pl-3 text-xs text-gray-500 dark:text-gray-300">
             {order}/{count}
@@ -66,7 +83,7 @@ export const FileListItem = ({
         )}
         {previewImgSrc ? (
           <ImageZoom>
-            <div className="relative w-16 h-24 p-2 bg-gray-200/65 xs:h-20 xs:w-14">
+            <div className="relative p-2 w-16 h-24 bg-gray-200/65 xs:h-20 xs:w-14">
               <img
                 src={previewImgSrc}
                 alt="Preview of File"
@@ -75,12 +92,12 @@ export const FileListItem = ({
             </div>
           </ImageZoom>
         ) : (
-          <ImagePlaceholderIcon className="hidden h-20 m-2 text-gray-400 w-14 xs:block" />
+          <ImagePlaceholderIcon className="hidden m-2 w-14 h-20 text-gray-400 xs:block" />
         )}
 
-        <div className="flex items-center flex-1 min-w-0 gap-2">
-          <div className="flex flex-col justify-center min-w-0 gap-2 ">
-            <h3 className="max-w-full overflow-hidden text-xs font-semibold text-ellipsis whitespace-nowrap xs:text-base">
+        <div className="flex flex-1 gap-2 items-center min-w-0">
+          <div className="flex flex-col gap-2 justify-center min-w-0">
+            <h3 className="overflow-hidden max-w-full text-xs font-semibold whitespace-nowrap text-ellipsis xs:text-base">
               {name}
             </h3>
             {size && (
@@ -93,23 +110,32 @@ export const FileListItem = ({
         <FileItemActions id={id} stage={uploadStatus.stage} />
         {uploadStatus.stage === UploadedFileItemStage.IDLE && (
           <div
-            className="flex items-center self-stretch p-3 bg-gray-200/65"
-            {...draggableProvided?.dragHandleProps}
+            className="flex items-center self-stretch p-3 bg-gray-200/65 cursor-grab active:cursor-grabbing"
+            {...listeners}
           >
             <MoveIcon />
           </div>
         )}
       </div>
       {uploadStatus.stage === UploadedFileItemStage.UPLOADING && (
-        <ProgressBar progress={uploadStatus.progress} />
+        <div className="p-3 pt-0">
+          <ProgressBar progress={uploadStatus.progress} />
+        </div>
       )}
-
       {uploadStatus.stage === UploadedFileItemStage.FINISHED && (
-        <ProgressBar variant="finished" progress={uploadStatus.progress} />
+        <div className="p-3 pt-0">
+          <ProgressBar progress={100} variant="finished" />
+        </div>
       )}
-
+      {uploadStatus.stage === UploadedFileItemStage.REMOVING && (
+        <div className="p-3 pt-0">
+          <ProgressBar progress={100} variant="removing" />
+        </div>
+      )}
       {uploadStatus.stage === UploadedFileItemStage.FAILED && (
-        <ProgressBar variant="failed" progress={100} />
+        <div className="p-3 pt-0">
+          <ProgressBar progress={100} variant="failed" />
+        </div>
       )}
     </div>
   );

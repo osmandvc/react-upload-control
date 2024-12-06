@@ -1,5 +1,5 @@
 {
-  "name": "react-upload-control",
+  "name": "@osmandvc/react-upload-control",
   "version": "0.1.0-alpha.3",
   "description": "A completely free and open-source file uploader library designed for modern react applications. This package focuses on delivering a feature-rich experience while prioritizing an exceptional developer experience (DX). Whether you're handling simple uploads or complex multi-file scenarios, this library offers powerful customization, seamless integration, and a smooth workflow for developers. Perfect for those who need an efficient, flexible, and easy-to-use file uploader solution in their projects.",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
     "build-storybook": "storybook build"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "keywords": [
     "react",
@@ -40,9 +40,10 @@
   "author": "Osman Deveci",
   "license": "MIT",
   "dependencies": {
+    "@dnd-kit/core": "^6.2.0",
+    "@dnd-kit/sortable": "^9.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@hello-pangea/dnd": "^17.0.0",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-select": "^2.1.2",
@@ -67,7 +68,6 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.6.3",
-    "unpdf": "^0.12.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -97,6 +97,8 @@
     "ts-loader": "^9.5.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   }
 }

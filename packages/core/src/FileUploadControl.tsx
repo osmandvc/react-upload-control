@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-
-import { DropResult, ResponderProvided } from "@hello-pangea/dnd";
+import { arrayMove } from "@dnd-kit/sortable";
 
 import {
   FileDropLarge,
@@ -12,7 +11,7 @@ import {
   FileListContainer,
 } from "./components";
 import { useUploadFilesProvider } from "./providers";
-import { FileUploadControlProps } from "./types";
+import { DndResult, FileUploadControlProps } from "./types";
 import { cn } from "./utils";
 
 /**
@@ -28,42 +27,24 @@ export const FileUploadControl = ({
   const { files, setFiles, smStatusIs } = useUploadFilesProvider();
   const hasFiles = !!files.length;
 
-  function handleOnDragEnd(result: DropResult, provided: ResponderProvided) {
+  function handleOnDragEnd(result: DndResult) {
     const { source, destination } = result;
 
-    // If dropped outside the list, do nothing
-    if (!destination) return;
-    if (destination.index === source.index) return;
+    // If dropped outside the list or at the same position, do nothing
+    if (!destination || source.index === destination.index) {
+      return;
+    }
 
-    const filesCopy = Array.from(files);
-
-    const sourceFile = filesCopy.find(
-      (file) => file.order! - 1 === source.index
-    );
-    const destinationFile = filesCopy.find(
-      (file) => file.order! - 1 === destination.index
-    );
-
-    if (!sourceFile || !destinationFile)
-      throw new Error("Failed to find the dragged Files.");
-
-    const [removed] = filesCopy.splice(source.index, 1);
-
-    // Insert the dragged item at its new position
-    filesCopy.splice(destination.index, 0, removed);
-
-    // Update the order property of each item based on its new index
-    filesCopy.forEach((file, index) => {
-      file.order = index + 1;
+    setFiles((prevFiles) => {
+      const newFiles = arrayMove(prevFiles, source.index, destination.index);
+      return newFiles.map((file, index) => ({ ...file, order: index + 1 }));
     });
-
-    setFiles(filesCopy);
   }
 
   return (
     <div
       className={cn(
-        "flex h-full w-full flex-col gap-6 overflow-hidden p-4",
+        "flex overflow-hidden flex-col gap-6 p-4 w-full h-full",
         className
       )}
     >

@@ -1,6 +1,18 @@
-import React from "react";
-
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import React, { useMemo, useCallback } from "react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 import { useUploadFilesProvider } from "../../providers";
 import { FileListProps, UploadedFileItemStage } from "../../types";
@@ -11,59 +23,71 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
   const { files, smStatusIsnt } = useUploadFilesProvider();
   const hasFiles = !!files.length;
 
+  // Memoize sensors to prevent recreation on each render
+  const sensors = useSensors(
+    useSensor(PointerSensor, {}),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // Memoize file IDs array to prevent unnecessary re-renders of SortableContext
+  const fileIds = useMemo(() => files.map((f) => f.id), [files]);
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+
+      if (!over || active.id === over.id) {
+        return;
+      }
+
+      const oldIndex = files.findIndex((file) => file.id === active.id);
+      const newIndex = files.findIndex((file) => file.id === over.id);
+
+      onDragEnd({
+        source: { index: oldIndex },
+        destination: { index: newIndex },
+      });
+    },
+    [files, onDragEnd]
+  );
+
   if (!hasFiles) return null;
 
-  // container is scrollable, overflow-hidden instead auto is only set
-  // because of react-dnd issue: https://github.com/atlassian/react-beautiful-dnd/issues/131#issuecomment-1634398431
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable
-        droppableId="file-upload-control"
-        type="UploadedFile"
-        isDropDisabled={smStatusIsnt("IDLE")}
-      >
-        {(provided: any, snapshot: any) => (
-          <Card className="p-2">
-            <CardContent
-              className={`duration-75 transition-transform-colors-opacity ${
-                snapshot.isDraggingOver ? "bg-primary/10" : ""
-              }`}
-            >
-              <div className="flex flex-col gap-2" ref={provided.innerRef}>
-                {files.map((file, index) => (
-                  <Draggable
-                    key={file.id}
-                    draggableId={file.id}
-                    index={index}
-                    isDragDisabled={
-                      smStatusIsnt("IDLE") ||
-                      file.uploadStatus.stage === UploadedFileItemStage.FINISHED
-                    }
-                  >
-                    {(provided, snapshot) => (
-                      <div ref={provided.innerRef} {...provided.draggableProps}>
-                        <FileListItem
-                          key={file.id}
-                          name={file.name}
-                          size={file.size}
-                          id={file.id}
-                          uploadStatus={file.uploadStatus}
-                          previewImgSrc={file.previewImg?.imgBase64Uri}
-                          order={file.order}
-                          count={files.length}
-                          draggableProvided={hasFiles ? provided : undefined}
-                          draggableSnapshot={snapshot}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <Card className="p-2">
+        <CardContent>
+          <SortableContext
+            items={fileIds}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="flex flex-col gap-2">
+              {files.map((file) => (
+                <FileListItem
+                  key={file.id}
+                  name={file.name}
+                  size={file.size}
+                  id={file.id}
+                  uploadStatus={file.uploadStatus}
+                  previewImgSrc={file.previewImg?.imgBase64Uri}
+                  order={file.order}
+                  count={files.length}
+                  disabled={
+                    smStatusIsnt("IDLE") ||
+                    file.uploadStatus.stage === UploadedFileItemStage.FINISHED
+                  }
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </CardContent>
+      </Card>
+    </DndContext>
   );
 };

@@ -1,0 +1,34 @@
+# Source
+src/
+tests/
+stories/
+.storybook/
+
+# Configuration files
+tsconfig.json
+webpack.config.js
+.eslintrc
+.prettierrc
+jest.config.js
+.babelrc
+
+# Development files
+*.test.ts
+*.test.tsx
+*.stories.tsx
+
+# Build artifacts
+storybook-static/
+coverage/
+.cache/
+
+# IDE and OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
