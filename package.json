@@ -1,5 +1,5 @@
 {
-  "name": "@osmandvc/react-upload-control",
+  "name": "react-upload-control",
   "private": true,
   "workspaces": [
     "packages/*"

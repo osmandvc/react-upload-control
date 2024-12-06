@@ -8,11 +8,12 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
     libraryTarget: "umd",
-    library: "react-upload-control",
+    library: "@osmandvc/react-upload-control",
     globalObject: "this",
+    clean: true,
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
     alias: {
       "@": path.resolve(__dirname),
     },
@@ -21,17 +22,28 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: {
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true, // Skip type checking
-          },
-        },
+        use: "ts-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [require("tailwindcss"), require("autoprefixer")],
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -48,9 +60,6 @@ module.exports = {
       amd: "react-dom",
       root: "ReactDOM",
     },
-  },
-  optimization: {
-    minimize: true,
   },
   plugins: [...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : [])],
 };

@@ -3,6 +3,7 @@ src/
 tests/
 stories/
 .storybook/
+temp/
 
 # Configuration files
 tsconfig.json
