@@ -15,7 +15,7 @@ export const FileItemActions = ({ id, stage }: Props) => {
   const { deleteFile } = useUploadFilesProvider();
 
   return (
-    <div className="flex items-center gap-2 p-2">
+    <div className="flex gap-2 items-center p-2">
       {(!stage ||
         stage === UploadedFileItemStage.IDLE ||
         stage === UploadedFileItemStage.FAILED) && (
@@ -30,7 +30,7 @@ export const FileItemActions = ({ id, stage }: Props) => {
       )}
       {stage === UploadedFileItemStage.FINISHED && (
         <div className="p-2">
-          <IconCheck color="green" />
+          <IconCheck className="text-primary" />
         </div>
       )}
     </div>

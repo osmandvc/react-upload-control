@@ -11,9 +11,9 @@ export const FileUploadAllButton = () => {
 
   return (
     <Button
-      variant="success"
+      variant="default"
       size="sm"
-      className="flex-grow max-w-2xl"
+      className="flex-grow max-w-2xl bg-primary/10 text-primary hover:bg-primary/20"
       disabled={!files.length || smStatusIs("PROCESSING")}
       endContent={<CheckIcon size="20px" />}
       onClick={uploadAllFiles}

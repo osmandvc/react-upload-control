@@ -9,7 +9,6 @@ import { FileLoaderCameraProps } from "../types";
 import { CameraIcon } from "../ui/icons";
 import { addUniqueTimestamp, cn } from "../utils";
 
-// Import shadcn Dialog components
 import {
   Dialog,
   DialogTrigger,
@@ -20,14 +19,13 @@ import {
 } from "@/src/ui/dialog";
 import { Button } from "@/src/ui/button";
 
-// Import the new Select components from shadcn
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/src/ui/select"; // Adjust this path based on your folder structure
+} from "@/src/ui/select";
 
 type CameraSelectItem = {
   value: string;
@@ -131,28 +129,29 @@ export const FileLoaderCamera = (props: FileLoaderCameraProps) => {
             </DialogTitle>
           </DialogHeader>
           {userMediaStatus === "READY" && (
-            <div className="flex items-center justify-between gap-2">
-              <Select
-                value={selectedDeviceId ?? undefined}
-                onValueChange={handleDeviceChange}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue
-                    placeholder={intl.formatMessage({
-                      id: "FileLoaderCamera.dropDownPlaceholder",
-                    })}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  {devices.map((device) => (
-                    <SelectItem key={device.value} value={device.value}>
-                      {device.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <div className="flex items-center gap-2">
+            <div className="flex gap-2 justify-between items-center">
+              {devices.length > 0 && selectedDeviceId && (
+                <Select
+                  value={selectedDeviceId}
+                  onValueChange={handleDeviceChange}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue
+                      placeholder={intl.formatMessage({
+                        id: "FileLoaderCamera.dropDownPlaceholder",
+                      })}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {devices.map((device) => (
+                      <SelectItem key={device.value} value={device.value}>
+                        {device.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+              <div className="flex gap-2 items-center">
                 <Button
                   onClick={doRotateDevice}
                   isIconOnly
@@ -169,11 +168,11 @@ export const FileLoaderCamera = (props: FileLoaderCameraProps) => {
             </div>
           )}
           {userMediaStatus === "ERROR" && (
-            <div className="grid w-full h-full place-items-center">Error</div>
+            <div className="grid place-items-center w-full h-full">Error</div>
           )}
           <div className="p-0">
             {userMediaStatus === "LOADING" && (
-              <div className="grid w-full h-full place-items-center">
+              <div className="grid place-items-center w-full h-full">
                 Loading...
               </div>
             )}

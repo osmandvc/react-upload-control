@@ -2,12 +2,12 @@
 
 > ⚠️ **Early Release Notice:** This library is in active development! While it's already battle-tested and production-ready, we're working on comprehensive documentation and additional features. The current docs provide basic usage - stay tuned for in-depth guides, examples, and advanced customization options coming soon!
 
-React Upload Control is a free and open-source file uploader library designed for modern React applications. This library is crafted to provide a high-quality developer experience (DX), making it easy to use for simple file uploads while offering extensive customization options for advanced use cases.
+React Upload Control is a free, lightweight and open-source file uploader library designed for modern React applications. This library is crafted to provide a high-quality developer experience (DX), making it easy to use for simple file uploads while offering extensive customization options for advanced use cases.
 
 - 🚀 **Modern Stack:** Built with React 18+ and TypeScript for type-safe development
 - 📁 **Drag & Drop:** Intuitive file uploading with visual feedback and validation
-- 📷 **Camera Integration:** Capture photos directly from your device's camera
 - 📋 **File Management:** Drag-to-reorder capability for organizing user uploads in a specific order
+- 📷 **Camera Integration:** Capture photos directly from your device's camera
 - 💻 **Developer Experience:** Simple API with comprehensive TypeScript support and documentation
 - 🌐 **Internationalization:** Built-in i18n support for multiple languages (currently English and German)
 - 🎨 **Beautiful UI:** Modern, responsive design powered by Tailwind CSS
@@ -19,18 +19,16 @@ React Upload Control is a free and open-source file uploader library designed fo
 
 ## Installation
 
-⚠️ **Alpha Release:** This package is in early development. Please use the `@alpha` tag when installing to get the latest alpha version.
-
 To install React Upload Control, use npm or yarn:
 
 ```bash
-npm install react-upload-control@alpha
+npm install @osmandvc/react-upload-control
 ```
 
 or
 
 ```bash
-yarn add react-upload-control@alpha
+yarn add @osmandvc/react-upload-control
 ```
 
 ## Getting Started

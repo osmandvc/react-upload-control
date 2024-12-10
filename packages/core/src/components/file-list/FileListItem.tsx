@@ -22,7 +22,7 @@ const ProgressBar = ({
     <div className="flex items-center w-full">
       {!variant && <Progress value={progress} aria-label="progress bar" />}
       {variant === "finished" && (
-        <Progress value={progress} className="bg-green-500" />
+        <Progress value={progress} className="bg-primary" />
       )}
       {variant === "removing" && (
         <Progress value={progress} className="bg-yellow-500" />
@@ -72,7 +72,8 @@ export const FileListItem = ({
       ref={setNodeRef}
       style={style}
       className={`flex flex-col rounded border duration-150 transition-transform-colors-opacity ${
-        isDragging ? "bg-gray-50/70" : ""}`}
+        isDragging ? "bg-gray-50/70" : ""
+      }`}
       {...attributes}
     >
       <div className="flex gap-4 items-center h-full">
@@ -113,7 +114,7 @@ export const FileListItem = ({
             className="flex items-center self-stretch p-3 bg-gray-200/65 cursor-grab active:cursor-grabbing"
             {...listeners}
           >
-            <MoveIcon />
+            <MoveIcon className="w-5 h-5" />
           </div>
         )}
       </div>
