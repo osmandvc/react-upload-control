@@ -23,7 +23,6 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
   const { files, smStatusIsnt } = useUploadFilesProvider();
   const hasFiles = !!files.length;
 
-  // Memoize sensors to prevent recreation on each render
   const sensors = useSensors(
     useSensor(PointerSensor, {}),
     useSensor(KeyboardSensor, {
@@ -31,7 +30,6 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
     })
   );
 
-  // Memoize file IDs array to prevent unnecessary re-renders of SortableContext
   const fileIds = useMemo(() => files.map((f) => f.id), [files]);
 
   const handleDragEnd = useCallback(
@@ -42,15 +40,15 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
         return;
       }
 
-      const oldIndex = files.findIndex((file) => file.id === active.id);
-      const newIndex = files.findIndex((file) => file.id === over.id);
+      const oldIndex = fileIds.findIndex((id) => id === active.id);
+      const newIndex = fileIds.findIndex((id) => id === over.id);
 
       onDragEnd({
         source: { index: oldIndex },
         destination: { index: newIndex },
       });
     },
-    [files, onDragEnd]
+    [fileIds, onDragEnd]
   );
 
   if (!hasFiles) return null;
@@ -60,6 +58,14 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      autoScroll={{
+        acceleration: 1,
+        threshold: {
+          x: 0, // Disable horizontal scrolling
+          y: 0.2,
+        },
+        interval: 5,
+      }}
     >
       <Card className="p-2">
         <CardContent>
@@ -67,7 +73,7 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
             items={fileIds}
             strategy={verticalListSortingStrategy}
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex overflow-y-auto overflow-x-hidden flex-col gap-2 max-h-72 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
               {files.map((file) => (
                 <FileListItem
                   key={file.id}

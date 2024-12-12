@@ -353,14 +353,17 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
       code: string;
     }
   ) {
-    let stage =
-      getFile(fileId)?.uploadStatus.stage === UploadedFileItemStage.FINISHED
-        ? UploadedFileItemStage.REMOVING
-        : UploadedFileItemStage.UPLOADING;
+    let stage = getFile(fileId)?.uploadStatus.stage;
 
     if (progress >= 0 && progress <= 100) {
-      if (error) stage = UploadedFileItemStage.FAILED;
-      if (progress === 100 && !error) stage = UploadedFileItemStage.FINISHED;
+      if (error) {
+        stage = UploadedFileItemStage.FAILED;
+      } else if (progress === 100) {
+        stage = UploadedFileItemStage.FINISHED;
+      } else if (stage !== UploadedFileItemStage.FINISHED) {
+        stage = UploadedFileItemStage.UPLOADING;
+      }
+
       updateFile(fileId, {
         uploadStatus: { progress, error, stage },
       });
@@ -397,19 +400,19 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
   ): [boolean, UploadedFile[]] {
     const allFiles = [...files];
     let isAllSuccess = true;
-    // Files-Array mit neuen Stages aktualisieren
+    // Files-Array with updated states
     results.forEach(({ fileId, success, error }) => {
       const file = allFiles.find((file) => file.id === fileId);
       if (!file) return;
       if (success)
         file.uploadStatus = {
-          ...file.uploadStatus,
+          progress: 100,
           stage: UploadedFileItemStage.FINISHED,
           error: undefined,
         };
       if (!success) {
         file.uploadStatus = {
-          ...file.uploadStatus,
+          progress: 100,
           stage: UploadedFileItemStage.FAILED,
           error,
         };

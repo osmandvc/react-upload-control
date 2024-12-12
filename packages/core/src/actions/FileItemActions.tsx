@@ -22,7 +22,7 @@ export const FileItemActions = ({ id, stage }: Props) => {
         <Button
           isIconOnly
           icon="DeleteIcon"
-          variant="default"
+          variant="ghost"
           size="sm"
           className="text-gray-400 data-[hover=true]:bg-gray-200"
           onClick={() => deleteFile(id)}

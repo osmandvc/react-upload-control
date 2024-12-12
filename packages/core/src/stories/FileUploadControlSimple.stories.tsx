@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import FileUploadControlSimple from "./FileUploadControlSimple";
 
 const meta: Meta = {
-  title: "Examples/Simple Upload Control",
+  title: "Examples/Mini Upload Control",
   component: FileUploadControlSimple,
   parameters: {
     layout: "centered",
