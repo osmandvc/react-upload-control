@@ -2,11 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import FileUploadControlWithProgress from "./FileUploadControlWithProgress";
 
 const meta = {
-  title: "Examples/Default Upload Control",
+  title: "Examples/Upload Control With Progress",
   component: FileUploadControlWithProgress,
-  parameters: {
-    layout: "centered",
-  },
+  parameters: {},
 } satisfies Meta<typeof FileUploadControlWithProgress>;
 
 export default meta;

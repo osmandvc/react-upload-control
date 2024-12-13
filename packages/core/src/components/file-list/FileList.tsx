@@ -20,7 +20,7 @@ import { FileListItem } from "./FileListItem";
 import { Card, CardContent } from "@/src/ui/card";
 
 export const FileList = ({ onDragEnd }: FileListProps) => {
-  const { files, smStatusIsnt } = useUploadFilesProvider();
+  const { files, smStatusIsnt, disableSorting } = useUploadFilesProvider();
   const hasFiles = !!files.length;
 
   const sensors = useSensors(
@@ -43,7 +43,7 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
       const oldIndex = fileIds.findIndex((id) => id === active.id);
       const newIndex = fileIds.findIndex((id) => id === over.id);
 
-      onDragEnd({
+      onDragEnd?.({
         source: { index: oldIndex },
         destination: { index: newIndex },
       });
@@ -52,6 +52,35 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
   );
 
   if (!hasFiles) return null;
+
+  // TODO: Clean up and move to own component
+  if (disableSorting) {
+    return (
+      <Card className="p-2">
+        <CardContent>
+          <div className="flex overflow-y-auto overflow-x-hidden flex-col gap-2 max-h-72 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+            {files.map((file) => (
+              <div
+                key={file.id}
+                className="flex flex-col rounded border duration-150 transition-transform-colors-opacity"
+              >
+                <FileListItem
+                  name={file.name}
+                  size={file.size}
+                  id={file.id}
+                  uploadStatus={file.uploadStatus}
+                  previewImgSrc={file.previewImg?.imgBase64Uri}
+                  count={files.length}
+                  disabled={true}
+                  disableSorting={disableSorting}
+                />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <DndContext
@@ -88,6 +117,7 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
                     smStatusIsnt("IDLE") ||
                     file.uploadStatus.stage === UploadedFileItemStage.FINISHED
                   }
+                  disableSorting={disableSorting}
                 />
               ))}
             </div>

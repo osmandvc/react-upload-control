@@ -20,16 +20,25 @@ const ProgressBar = React.memo(
     variant,
   }: UploadStatus & { variant?: "finished" | "removing" | "failed" }) => {
     return (
-      <div className="flex items-center w-full">
+      <div className="w-full">
         {!variant && <Progress value={progress} aria-label="progress bar" />}
         {variant === "finished" && (
-          <Progress value={progress} className="bg-primary" />
+          <Progress
+            value={progress}
+            className="rounded-r-lg rounded-l-lg bg-primary"
+          />
         )}
         {variant === "removing" && (
-          <Progress value={progress} className="bg-yellow-500" />
+          <Progress
+            value={progress}
+            className="bg-yellow-500 rounded-r-lg rounded-l-lg"
+          />
         )}
         {variant === "failed" && (
-          <Progress value={progress} className="bg-red-500" />
+          <Progress
+            value={progress}
+            className="bg-red-500 rounded-r-lg rounded-l-lg"
+          />
         )}
       </div>
     );
@@ -46,10 +55,11 @@ export const FileListItem = React.memo(
     order,
     count,
     disabled,
+    disableSorting,
   }: FileListItemProps) => {
     const { attributes, listeners, setNodeRef, transform } = useSortable({
       id: id,
-      disabled: disabled,
+      disabled: disabled || disableSorting,
     });
 
     const style = {
@@ -67,7 +77,7 @@ export const FileListItem = React.memo(
       <div ref={setNodeRef} style={style} {...attributes}>
         <div className="flex flex-col rounded border duration-150 transition-transform-colors-opacity">
           <div className="flex gap-4 items-center h-full">
-            {order && (
+            {!disableSorting && order && (
               <span className="pl-3 text-xs text-gray-500 dark:text-gray-300">
                 {order}/{count}
               </span>
@@ -83,12 +93,14 @@ export const FileListItem = React.memo(
                 </div>
               </ImageZoom>
             ) : (
-              <ImagePlaceholderIcon className="hidden m-2 w-14 h-20 text-gray-400 xs:block" />
+              <div className="relative p-2 w-16 h-24 bg-gray-200/65 xs:h-20 xs:w-14">
+                <ImagePlaceholderIcon className="w-full h-full text-primary/50" />
+              </div>
             )}
 
             <div className="flex flex-1 gap-2 items-center min-w-0">
               <div className="flex flex-col gap-2 justify-center min-w-0">
-                <h3 className="overflow-hidden max-w-full text-xs font-semibold whitespace-nowrap text-ellipsis xs:text-base">
+                <h3 className="overflow-hidden max-w-full text-xs font-semibold whitespace-nowrap text-ellipsis xs:text-sm">
                   {name}
                 </h3>
                 {size && (
@@ -99,32 +111,33 @@ export const FileListItem = React.memo(
               </div>
             </div>
             <FileItemActions id={id} stage={uploadStatus.stage} />
-            {uploadStatus.stage === UploadedFileItemStage.IDLE && (
-              <div
-                className="flex items-center self-stretch p-3 bg-gray-200/65 cursor-grab active:cursor-grabbing"
-                {...listeners}
-              >
-                <MoveIcon className="w-5 h-5" />
-              </div>
-            )}
+            {uploadStatus.stage === UploadedFileItemStage.IDLE &&
+              !disableSorting && (
+                <div
+                  className="flex items-center self-stretch p-3 bg-gray-200/65 cursor-grab active:cursor-grabbing"
+                  {...listeners}
+                >
+                  <MoveIcon className="w-5 h-5" />
+                </div>
+              )}
           </div>
           {uploadStatus.stage === UploadedFileItemStage.UPLOADING && (
-            <div className="p-3 pt-0">
+            <div className="pt-0">
               <ProgressBar progress={uploadStatus.progress} />
             </div>
           )}
           {uploadStatus.stage === UploadedFileItemStage.FINISHED && (
-            <div className="p-3 pt-0">
+            <div className="pt-0">
               <ProgressBar progress={100} variant="finished" />
             </div>
           )}
           {uploadStatus.stage === UploadedFileItemStage.REMOVING && (
-            <div className="p-3 pt-0">
+            <div className="pt-0">
               <ProgressBar progress={100} variant="removing" />
             </div>
           )}
           {uploadStatus.stage === UploadedFileItemStage.FAILED && (
-            <div className="p-3 pt-0">
+            <div className="pt-0">
               <ProgressBar progress={100} variant="failed" />
             </div>
           )}

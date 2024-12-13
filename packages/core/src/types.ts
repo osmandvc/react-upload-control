@@ -12,12 +12,16 @@ export type FilePreProcessor = MimeTypesProcessorMap & {
   other?: FilePreProcessorFunction;
 };
 
-export interface UploadedFilesManagerProps extends PropsWithChildren {
-  maxFileSizeMb?: number;
-  maxFiles?: number;
+export interface FileUploadConfig {
   mimeTypes?: string[];
   multiple?: boolean;
-  initFiles?: UploadedFile[];
+  maxFileSizeMb?: number;
+  maxFiles?: number;
+  resetOnFinish?: boolean;
+  disableSorting?: boolean;
+}
+
+export interface FileUploadHandlers {
   onUpload: (
     files: UploadedFile[],
     onProgressChange: (
@@ -33,12 +37,17 @@ export interface UploadedFilesManagerProps extends PropsWithChildren {
   onFinish: (files: UploadedFile[]) => void;
   onAddFileError?: (error: unknown | FileDropError) => void;
   preProcessFiles?: FilePreProcessor;
-  resetOnFinish?: boolean;
 }
 
-export interface UploadedFilesProviderProps extends UploadedFilesManagerProps {
+export interface UploadedFilesManagerProps {
+  children: React.ReactNode;
+  config?: FileUploadConfig;
+  handlers: FileUploadHandlers;
+  initFiles?: UploadedFile[];
   locale?: string;
 }
+
+export interface UploadedFilesProviderProps extends UploadedFilesManagerProps {}
 
 export type UploadFileResult = {
   fileId: string;
@@ -47,6 +56,7 @@ export type UploadFileResult = {
     text: string;
     code: string;
   };
+  metadata?: UploadedFileMetadata;
 };
 
 export type FileDropProps = {
@@ -67,14 +77,15 @@ export type DndResult = {
 };
 
 export type FileListProps = {
-  onDragEnd: (result: DndResult) => any;
+  onDragEnd?: (result: DndResult) => void;
+  disableSorting?: boolean;
 };
 
 export interface FileUploadControlProps
-  extends FileDropProps,
-    FileLoaderActionsProps {
+  extends Omit<FileLoaderActionsProps, "onAddFileError"> {
   className?: string;
   size?: "sm" | "lg" | "auto";
+  children?: React.ReactNode;
 }
 
 export type UploadStatus = {
@@ -95,6 +106,7 @@ export type FileListItemProps = {
   order?: number;
   count: number;
   disabled?: boolean;
+  disableSorting?: boolean;
 };
 
 export enum FileDropErrorType {

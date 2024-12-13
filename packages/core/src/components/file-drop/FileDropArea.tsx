@@ -84,7 +84,7 @@ export const FileDropArea = (props: FileDropProps) => {
             onChange={handleFileInputChange}
             disabled={smStatusIs("PROCESSING")}
           />
-          <div className="grid gap-5 place-items-center p-3 text-sm text-center md:text-base">
+          <div className="grid gap-5 place-items-center p-3 text-sm text-center">
             <div className="p-3 rounded-full">
               <UploadIcon size={25} />
             </div>
@@ -93,7 +93,7 @@ export const FileDropArea = (props: FileDropProps) => {
                 <p>
                   <FormattedMessage id="FileDropArea.text" />
                 </p>
-                <p className="text-xs text-gray-400 md:text-sm">
+                <p className="text-xs text-gray-400">
                   <FormattedMessage
                     id="FileDropArea.validFilesText"
                     values={{
@@ -130,7 +130,7 @@ export const FileDropArea = (props: FileDropProps) => {
                   disabled={smStatusIs("PROCESSING")}
                 />
                 <div className="p-3">
-                  {smStatusIs("IDLE") && <UploadIcon size={25} />}
+                  {smStatusIs("IDLE") && <UploadIcon size={20} />}
                   {smStatusIs("PROCESSING") && <Processing />}
                 </div>
               </div>

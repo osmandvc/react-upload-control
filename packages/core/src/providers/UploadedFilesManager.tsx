@@ -20,6 +20,7 @@ import {
   UploadedFileItemStage,
   UploadedFilePublic,
   UploadedFilesManagerProps,
+  FileUploadConfig,
 } from "../types";
 import { isFileDropError } from "../utils";
 
@@ -39,35 +40,33 @@ export interface ContextProps {
   setFiles: React.Dispatch<React.SetStateAction<UploadedFile[]>>;
   resetControl: (files: UploadedFile[]) => void;
   getValidationInfo: () => { types: string[]; maxFileSizeMb: number };
+  disableSorting: boolean;
 }
 
 const UploadedFilesContext = createContext<ContextProps | undefined>(undefined);
 
-const defaultProps = {
+const defaultConfig: FileUploadConfig = {
   mimeTypes: SUPPORTED_MIME_TYPES.filter((type) => type.startsWith("image")),
   multiple: true,
   maxFileSizeMb: 10,
   resetOnFinish: false,
+  disableSorting: false,
 };
 
 const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
+  const { children, config = defaultConfig, handlers, initFiles } = props;
+
+  const { onUpload, onFinish, onAddFileError, onDelete, preProcessFiles } =
+    handlers;
+
   const {
-    mimeTypes,
-    multiple,
-    maxFileSizeMb,
+    mimeTypes = defaultConfig.mimeTypes!,
+    multiple = defaultConfig.multiple,
+    maxFileSizeMb = defaultConfig.maxFileSizeMb!,
     maxFiles,
-    onAddFileError,
-    preProcessFiles,
-    onDelete,
-    onFinish,
-    onUpload,
-    initFiles,
-    resetOnFinish,
-    children,
-  } = {
-    ...defaultProps,
-    ...props,
-  };
+    resetOnFinish = defaultConfig.resetOnFinish,
+    disableSorting = defaultConfig.disableSorting!,
+  } = config;
 
   const [files, setFiles] = useState(initFiles ?? []);
 
@@ -401,7 +400,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     const allFiles = [...files];
     let isAllSuccess = true;
     // Files-Array with updated states
-    results.forEach(({ fileId, success, error }) => {
+    results.forEach(({ fileId, success, error, metadata }) => {
       const file = allFiles.find((file) => file.id === fileId);
       if (!file) return;
       if (success)
@@ -418,6 +417,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
         };
         isAllSuccess = false;
       }
+      file.metadata = metadata ?? {};
     });
     return [isAllSuccess, allFiles];
   }
@@ -478,6 +478,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
         setFiles,
         resetControl,
         getValidationInfo,
+        disableSorting,
       }}
     >
       {children}

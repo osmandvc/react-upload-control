@@ -20,14 +20,16 @@ export const FileLoaderActions = (props: FileLoaderActionsProps) => {
       {!isMinimal && (
         <div className="flex flex-col gap-2">
           {!disableFileSystem && (
-            <FileLoaderFileSystem className="md:justify-start" />
+            <FileLoaderFileSystem className="text-sm md:justify-start" />
           )}
-          {!disableCamera && <FileLoaderCamera className="md:justify-start" />}
+          {!disableCamera && (
+            <FileLoaderCamera className="text-sm md:justify-start" />
+          )}
         </div>
       )}
       {isMinimal && (
         <>
-          <div className="flex gap-2 md:hidden">
+          <div className="flex gap-2 sm:hidden">
             {!disableFileSystem && (
               <FileLoaderFileSystem onlyIcon className="text-xs" />
             )}
@@ -35,9 +37,9 @@ export const FileLoaderActions = (props: FileLoaderActionsProps) => {
               <FileLoaderCamera onlyIcon className="text-xs" />
             )}
           </div>
-          <div className="hidden gap-2 md:flex">
-            {!disableFileSystem && <FileLoaderFileSystem />}
-            {!disableCamera && <FileLoaderCamera />}
+          <div className="hidden gap-2 sm:flex">
+            {!disableFileSystem && <FileLoaderFileSystem className="text-xs" />}
+            {!disableCamera && <FileLoaderCamera className="text-xs" />}
           </div>
         </>
       )}

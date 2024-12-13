@@ -6,8 +6,8 @@ React Upload Control is a free, lightweight and open-source file uploader librar
 
 - 🚀 **Modern Stack:** Built with React 18+ and TypeScript for type-safe development
 - 📁 **Drag & Drop:** Intuitive file uploading with visual feedback and validation
-- 📋 **File Management:** Drag-to-reorder capability for organizing user uploads in a specific order
-- 📷 **Camera Integration:** Capture photos directly from your device's camera
+- 📋 **File Management:** Drag-to-reorder capability for organizing user uploads
+- 📷 **Camera Integration:** Camera integration for capturing photos directly
 - 💻 **Developer Experience:** Simple API with comprehensive TypeScript support and documentation
 - 🌐 **Internationalization:** Built-in i18n support for multiple languages (currently English and German)
 - 🎨 **Beautiful UI:** Modern, responsive design powered by Tailwind CSS
@@ -55,11 +55,218 @@ function MyFileUploadParent(props: PropsWithChildren) {
 
   return (
     <UploadedFilesProvider
-      onUpload={handleUpload}
-      onDelete={handleDelete}
-      onFinish={handleFinish}
-      multiple={true}
-      mimeTypes={["image/png", "image/jpeg"]}
+      handlers={{ onUpload: handleUpload, onFinish: handleFinish }}
+      config={{
+        mimeTypes: ["image/png", "image/jpeg"],
+        disableSorting: false, // Disable drag-to-reorder functionality
+      }}
+    >
+      <FileUploadControl />
+    </UploadedFilesProvider>
+  );
+}
+```
+
+## Upload Handler Guide
+
+The upload handler is a crucial part of the library that gives you complete control over how files are processed and uploaded.
+
+The upload handler receives two parameters:
+
+1. `files`: An array of `UploadedFile` objects to be uploaded
+2. `onProgressChange`: A callback function to update the upload progress
+
+The upload handler should return an array of `UploadFileResult` objects, which specify the success, error, and metadata for each file upload. The library will handle the UI updates based on the progress updates and final results you provide.
+
+Here are two examples of implementing an upload handler:
+
+### Example 1: Simple Batch Upload
+
+```tsx
+async function handleUpload(
+  files: UploadedFile[],
+  onProgressChange: (
+    fileId: string,
+    progress: number,
+    error?: { text: string; code: string }
+  ) => void
+): Promise<UploadFileResult[]> {
+  try {
+    // Set initial progress for all files
+    files.forEach((file) => {
+      onProgressChange(file.id, 0);
+    });
+
+    // Create form data with all files
+    const formData = new FormData();
+    files.forEach((file, index) => {
+      if (file.file) {
+        formData.append(`files`, file.file);
+      }
+    });
+
+    // Make API call with all files
+    const response = await fetch("https://api.example.com/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Upload failed");
+    }
+
+    // Example API response with processed file data
+    const result = await response.json();
+    // { success: true, files: [{ id: "...", url: "..." }] }
+
+    // Set progress to 100% for all files after successful upload
+    files.forEach((file) => {
+      onProgressChange(file.id, 100);
+    });
+
+    // Return success results with metadata from API
+    return files.map((file, index) => ({
+      fileId: file.id,
+      success: true,
+      metadata: {
+        url: result.files[index].url,
+        uploadedAt: new Date().toISOString(),
+      },
+    }));
+  } catch (error) {
+    // Set error state for all files
+    const errorResult = {
+      text: error.message || "Upload failed",
+      code: "BATCH_UPLOAD_ERROR",
+    };
+
+    // Return error results for all files
+    return files.map((file) => ({
+      fileId: file.id,
+      success: false,
+      error: errorResult,
+    }));
+  }
+}
+
+// Usage with the UploadedFilesProvider
+function MyFileUpload() {
+  return (
+    <UploadedFilesProvider
+      handlers={{
+        onUpload: handleUpload,
+        onFinish: (files) => {
+          // All files are uploaded successfully at this point
+          const urls = files.map((f) => f.metadata.url);
+          console.log("Uploaded file URLs:", urls);
+        },
+      }}
+      config={{
+        mimeTypes: ["image/jpeg", "image/png", "application/pdf"],
+        maxFileSizeMb: 10,
+      }}
+    >
+      <FileUploadControl />
+    </UploadedFilesProvider>
+  );
+}
+```
+
+### Example 2: Real-World AWS S3 Example
+
+```tsx
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+
+async function handleS3Upload(
+  files: UploadedFile[],
+  onProgressChange: (
+    fileId: string,
+    progress: number,
+    error?: { text: string; code: string }
+  ) => void
+): Promise<UploadFileResult[]> {
+  // Initialize the S3 client
+  const s3Client = new S3Client({
+    region: "your-region",
+    credentials: {
+      accessKeyId: "your-access-key",
+      secretAccessKey: "your-secret-key",
+    },
+  });
+
+  return Promise.all(
+    files.map(async (file) => {
+      try {
+        if (!file.file) throw new Error("No file provided");
+
+        // Generate a unique key for the file
+        const key = `uploads/${Date.now()}-${file.name}`;
+
+        // Create the upload
+        const upload = new Upload({
+          client: s3Client,
+          params: {
+            Bucket: "your-bucket-name",
+            Key: key,
+            Body: file.file,
+            ContentType: file.file.type,
+            // Optional: Set additional parameters
+            // ACL: 'public-read',
+            // Metadata: { /* your metadata */ }
+          },
+        });
+
+        // Handle upload progress
+        upload.on("httpUploadProgress", (progress) => {
+          const percentage = Math.round(
+            ((progress.loaded || 0) * 100) / (progress.total || 100)
+          );
+          onProgressChange(file.id, percentage);
+        });
+
+        // Perform the upload
+        await upload.done();
+
+        // Return success result with the S3 URL
+        return {
+          fileId: file.id,
+          success: true,
+          metadata: {
+            url: `https://your-bucket-name.s3.your-region.amazonaws.com/${key}`,
+          },
+        };
+      } catch (error) {
+        console.error("S3 upload error:", error);
+        return {
+          fileId: file.id,
+          success: false,
+          error: {
+            text: error.message || "S3 upload failed",
+            code: "S3_UPLOAD_ERROR",
+          },
+        };
+      }
+    })
+  );
+}
+
+// Usage with the UploadedFilesProvider
+function MyFileUpload() {
+  return (
+    <UploadedFilesProvider
+      handlers={{
+        onUpload: handleS3Upload,
+        onFinish: (files) => {
+          // All files are successfully uploaded at this point
+          const urls = files.map((f) => f.metadata.url);
+          console.log("Uploaded file URLs:", urls);
+        },
+      }}
+      config={{
+        mimeTypes: ["image/jpeg", "image/png", "application/pdf"],
+        maxFileSizeMb: 10,
+      }}
     >
       <FileUploadControl />
     </UploadedFilesProvider>
@@ -87,14 +294,20 @@ The provider component that manages the upload state and configuration.
 
 ```tsx
 <UploadedFilesProvider
-  mimeTypes={["image/jpeg", "image/png"]} // Allowed file types
-  maxFileSizeMb={10} // Maximum file size in MB
-  multiple={true} // Allow multiple file uploads
-  maxFiles={5} // Maximum number of files
-  onUpload={handleUpload} // Upload handler function
-  onDelete={handleDelete} // Delete handler function
-  onFinish={handleFinish} // Finish handler function
-  locale="en" // Locale for i18n
+  config={{
+    mimeTypes: ["image/jpeg", "image/png"], // Allowed file types
+    maxFileSizeMb: 10, // Maximum file size in MB
+    multiple: true, // Allow multiple file uploads
+    maxFiles: 5, // Maximum number of files
+    locale: "en", // Locale for i18n
+    resetOnFinish: false, // Reset state after finish
+    disableSorting: false, // Disable drag-to-reorder functionality
+  }}
+  handlers={{
+    onUpload: handleUpload, // Upload handler function
+    onDelete: handleDelete, // Delete handler function
+    onFinish: handleFinish, // Finish handler function
+  }}
 />
 ```
 
@@ -102,17 +315,13 @@ The provider component that manages the upload state and configuration.
 
 ### UploadedFilesProvider Props
 
-| Prop          | Type                                                   | Default   | Description                     |
-| ------------- | ------------------------------------------------------ | --------- | ------------------------------- |
-| mimeTypes     | string[]                                               | []        | Allowed file types              |
-| maxFileSizeMb | number                                                 | 10        | Maximum file size in MB         |
-| multiple      | boolean                                                | true      | Allow multiple file uploads     |
-| maxFiles      | number                                                 | undefined | Maximum number of files         |
-| onUpload      | (files: UploadedFile[]) => Promise<UploadFileResult[]> | required  | Upload handler function         |
-| onDelete      | (files: UploadedFile[]) => Promise<UploadFileResult[]> | undefined | Delete handler function         |
-| onFinish      | (files: UploadedFile[]) => void                        | undefined | Called when all uploads finish  |
-| locale        | string                                                 | 'en'      | Locale for internationalization |
-| resetOnFinish | boolean                                                | false     | Reset state after finish        |
+| Prop      | Type                                                                                                                                                                              | Default   | Description                                 |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------------- |
+| config    | { mimeTypes: string[], maxFileSizeMb: number, multiple: boolean, maxFiles: number, locale: string, resetOnFinish: boolean, disableSorting: boolean }                              | required  | Configuration object                        |
+| handlers  | { onUpload: (files: UploadedFile[]) => Promise<UploadFileResult[]>, onDelete: (files: UploadedFile[]) => Promise<UploadFileResult[]>, onFinish: (files: UploadedFile[]) => void } | required  | Handlers object                             |
+| children  | React.ReactNode                                                                                                                                                                   | required  | Child components to render                  |
+| initFiles | UploadedFile[]                                                                                                                                                                    | undefined | Initial files to populate the uploader with |
+| locale    | string                                                                                                                                                                            | 'en'      | Locale for internationalization             |
 
 ### FileUploadControl Props
 

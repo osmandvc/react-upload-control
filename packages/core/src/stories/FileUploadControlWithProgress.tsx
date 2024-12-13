@@ -3,6 +3,7 @@ import React, { PropsWithChildren } from "react";
 import { UploadedFilesProvider } from "../providers";
 import { FileUploadControl } from "../FileUploadControl";
 import { UploadedFile, UploadFileResult } from "../types";
+import { cn } from "../utils";
 
 function FileUploadControlWithProgress(props: PropsWithChildren) {
   function handleUpload(
@@ -128,7 +129,10 @@ function FileUploadControlWithProgress(props: PropsWithChildren) {
         Example with upload to local storage and upload progress (with
         throttling)
       </h1>
-      <UploadedFilesProvider onUpload={handleUpload} onFinish={handleFinish}>
+      <UploadedFilesProvider
+        handlers={{ onUpload: handleUpload, onFinish: handleFinish }}
+        config={{ mimeTypes: ["image/png", "image/jpeg", "application/pdf"] }}
+      >
         <FileUploadControl />
       </UploadedFilesProvider>
     </div>

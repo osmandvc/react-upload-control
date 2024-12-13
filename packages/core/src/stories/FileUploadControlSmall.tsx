@@ -4,7 +4,7 @@ import { UploadedFilesProvider } from "../providers";
 import { FileUploadControl } from "../FileUploadControl";
 import { UploadedFile, UploadFileResult } from "../types";
 
-function FileUploadControlSimple(props: PropsWithChildren) {
+function FileUploadControlSmall(props: PropsWithChildren) {
   async function handleUpload(
     files: UploadedFile[],
     onProgressChange: (
@@ -24,10 +24,7 @@ function FileUploadControlSimple(props: PropsWithChildren) {
         return {
           fileId: file.id,
           success: true,
-          metadata: {
-            field: "John Doe",
-          },
-        } as UploadFileResult;
+        };
       })
     );
 
@@ -43,17 +40,16 @@ function FileUploadControlSimple(props: PropsWithChildren) {
       <UploadedFilesProvider
         config={{
           mimeTypes: ["image/png", "image/jpeg", "application/pdf"],
-          disableSorting: true,
         }}
         handlers={{
           onUpload: handleUpload,
           onFinish: handleFinish,
         }}
       >
-        <FileUploadControl />
+        <FileUploadControl size="sm" />
       </UploadedFilesProvider>
     </div>
   );
 }
 
-export default FileUploadControlSimple;
+export default FileUploadControlSmall;
