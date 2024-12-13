@@ -28,12 +28,6 @@ const ProgressBar = React.memo(
             className="rounded-r-lg rounded-l-lg bg-primary"
           />
         )}
-        {variant === "removing" && (
-          <Progress
-            value={progress}
-            className="bg-yellow-500 rounded-r-lg rounded-l-lg"
-          />
-        )}
         {variant === "failed" && (
           <Progress
             value={progress}
@@ -129,11 +123,6 @@ export const FileListItem = React.memo(
           {uploadStatus.stage === UploadedFileItemStage.FINISHED && (
             <div className="pt-0">
               <ProgressBar progress={100} variant="finished" />
-            </div>
-          )}
-          {uploadStatus.stage === UploadedFileItemStage.REMOVING && (
-            <div className="pt-0">
-              <ProgressBar progress={100} variant="removing" />
             </div>
           )}
           {uploadStatus.stage === UploadedFileItemStage.FAILED && (

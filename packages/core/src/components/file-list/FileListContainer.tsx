@@ -7,7 +7,7 @@ interface ContainerProps extends PropsWithChildren {
 
 export const FileListContainer = ({ children, className }: ContainerProps) => {
   return (
-    <div className={cn("flex flex-col flex-1 gap-6", className)}>
+    <div className={cn("flex flex-col flex-1 gap-2", className)}>
       {children}
     </div>
   );

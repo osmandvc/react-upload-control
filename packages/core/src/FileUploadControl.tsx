@@ -44,45 +44,58 @@ export const FileUploadControl = ({
   return (
     <div
       className={cn(
-        "flex overflow-hidden flex-col gap-6 p-4 w-full h-full",
+        "grid grid-rows-[auto,1fr] gap-6 p-4 w-full h-full ",
         className
       )}
     >
-      {(smStatusIs("IDLE") || smStatusIs("PROCESSING")) && (
-        <>
-          <FileDropSmall
-            disableCamera={disableCamera}
-            disabled={smStatusIs("PROCESSING")}
-            disableFileSystem={disableFileSystem}
-            className={cn({
-              flex: size === "sm",
-              hidden: size === "lg",
-              "flex xsh:hidden": size === "auto",
-              "blur-sm": smStatusIs("PROCESSING"),
-            })}
-          >
-            {children}
-          </FileDropSmall>
-          <FileDropLarge
-            disableCamera={disableCamera}
-            disableFileSystem={disableFileSystem}
-            disabled={smStatusIs("PROCESSING")}
-            className={cn({
-              flex: size === "lg",
-              hidden: size === "sm",
-              "hidden xsh:flex": size === "auto",
-            })}
-          >
-            {children}
-          </FileDropLarge>
-        </>
-      )}
-      {hasFiles && (
-        <FileListContainer>
-          <FileListActions />
-          <FileList onDragEnd={handleOnDragEnd} />
-        </FileListContainer>
-      )}
+      <div
+        className={cn("transition-all duration-300 ease-in-out origin-top", {
+          "opacity-0 scale-y-0 h-0": !(
+            smStatusIs("IDLE") || smStatusIs("PROCESSING")
+          ),
+          "opacity-100 scale-y-100":
+            smStatusIs("IDLE") || smStatusIs("PROCESSING"),
+        })}
+      >
+        <FileDropSmall
+          disableCamera={disableCamera}
+          disabled={smStatusIs("PROCESSING")}
+          disableFileSystem={disableFileSystem}
+          className={cn({
+            flex: size === "sm",
+            hidden: size === "lg",
+            "flex xsh:hidden": size === "auto",
+            "blur-sm": smStatusIs("PROCESSING"),
+          })}
+        >
+          {children}
+        </FileDropSmall>
+        <FileDropLarge
+          disableCamera={disableCamera}
+          disableFileSystem={disableFileSystem}
+          disabled={smStatusIs("PROCESSING")}
+          className={cn({
+            flex: size === "lg",
+            hidden: size === "sm",
+            "hidden xsh:flex": size === "auto",
+          })}
+        >
+          {children}
+        </FileDropLarge>
+      </div>
+      <div
+        className={cn("min-h-0 transition-all duration-300 ease-in-out", {
+          "opacity-0": !hasFiles,
+          "opacity-100": hasFiles,
+        })}
+      >
+        {hasFiles && (
+          <FileListContainer>
+            <FileListActions />
+            <FileList onDragEnd={handleOnDragEnd} />
+          </FileListContainer>
+        )}
+      </div>
     </div>
   );
 };

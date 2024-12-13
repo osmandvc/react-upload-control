@@ -7,7 +7,11 @@ const preview: Preview = {
       storySort: {
         order: [
           "Examples",
-          ["Upload Control With Progress", "Mini Upload Control"],
+          [
+            "Upload Control With Progress",
+            "Small Upload Control",
+            "Upload Control without Drag and Drop",
+          ],
         ],
       },
     },

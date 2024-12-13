@@ -433,12 +433,11 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
       const uploadedFiles = files.filter(
         (file) => file.uploadStatus.stage === UploadedFileItemStage.FINISHED
       );
-      if (uploadedFiles.length && onDelete) await onDelete(uploadedFiles);
+      if (uploadedFiles.length && onDelete) onDelete(uploadedFiles);
       setFiles([]);
       smSetStatus("IDLE");
     } catch (error) {
       console.error(error);
-      smSetStatus("ERROR");
     }
   }
 

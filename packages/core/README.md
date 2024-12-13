@@ -274,6 +274,18 @@ function MyFileUpload() {
 }
 ```
 
+## onDelete Handler
+
+The `onDelete` handler is designed to be non-blocking and does not include progress tracking. This is intentional for better UX - since it's primarily used for cleanup when resetting a control with already finished uploads. Users should be able to reset the control immediately without waiting for deletion to complete or being blocked by deletion errors.
+
+```typescript
+interface Props {
+  onDelete?: (files: UploadedFile[]) => void | Promise<void>;
+}
+```
+
+> Note: Unlike `onUpload`, the `onDelete` handler won't show progress or block the UI. This ensures users can quickly reset or clear their upload state without delays.
+
 ## Core Components
 
 ### FileUploadControl
@@ -332,6 +344,55 @@ The provider component that manages the upload state and configuration.
 | disableFileSystem | boolean                | false     | Disable file system uploads |
 | className         | string                 | undefined | Additional CSS classes      |
 
+## Understanding the UploadedFile Type
+
+When implementing your upload handlers, you'll work with the `UploadedFile` type, which provides access to various file properties:
+
+```typescript
+interface UploadedFile {
+  id: string; // Unique identifier for the file
+  file?: File; // The actual File object
+  name: string; // File name
+  size?: number; // File size in bytes
+  type: string; // MIME type
+  base64Uri?: string; // Base64 encoded file content
+  previewImg?: {
+    // Preview image data (for images)
+    imgBase64Uri: string;
+    width?: number;
+    height?: number;
+  };
+  uploadStatus: {
+    // Current upload status
+    stage?: "IDLE" | "FINISHED" | "FAILED" | "UPLOADING" | "REMOVING";
+    progress?: number; // Upload progress (0-100)
+    error?: {
+      text: string; // Error message
+      code: string; // Error code
+    };
+  };
+  order?: number; // File order in the list
+  metadata?: {
+    // Custom metadata
+    [key: string]: any;
+  };
+}
+```
+
+## Creating Custom Upload Sources and Destinations
+
+The `useUploadFilesProvider` hook allows you to create your own file sources (like drop areas) and file destinations (like file lists) with ease. The provider handles all the complex validation and state management for you.
+
+The provider abstracts away:
+
+- File validation (size, type, count)
+- Progress tracking
+- File state management
+- Error handling
+- Upload coordination
+
+> 🔍 **Coming Soon**: Detailed documentation on creating custom upload components, handling file preprocessing, and implementing advanced validation logic.
+
 ## Customization
 
 React Upload Control is highly customizable. You can tailor it to meet your specific needs by adjusting its configuration and using its extensive API. <i> Detailed documentation coming soon. </i>
@@ -342,11 +403,12 @@ We welcome contributions from the community. Feel free to open issues or submit 
 
 Please note that while React Upload Control is in an early state and has been battle-tested, bugs may still appear. We would appreciate it if you report any issues you encounter so they can be fixed as soon as possible. Contributions to improve the library are **very welcome**.
 
+Because the library is in its early stages, **we are open to suggestions and feedback. If you have any ideas for new features or enhancements, please don't hesitate to share them with us.**
+
 ## License
 
 This project is licensed under the MIT License.
 
 ---
 
-<i> Detailed documentation coming soon. </i>
 MIT © Osman Deveci
