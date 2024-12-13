@@ -1,5 +1,7 @@
 # React Upload Control
 
+A modern, flexible file upload control for React applications.
+
 > ⚠️ **Early Release Notice:** This library is in active development! While it's already battle-tested and production-ready, we're working on comprehensive documentation and additional features. The current docs provide basic usage - stay tuned for in-depth guides, examples, and advanced customization options coming soon!
 
 React Upload Control is a free, lightweight and open-source file uploader library designed for modern React applications. This library is crafted to provide a high-quality developer experience (DX), making it easy to use for simple file uploads while offering extensive customization options for advanced use cases.
@@ -16,6 +18,11 @@ React Upload Control is a free, lightweight and open-source file uploader librar
 - 🔍 **File Preview:** Built-in preview support for images
 - ⚙️ **Unopinionated:** You decide how and where files are uploaded, no vendor lock-in
 - 🔓 **Open Source:** Free to use and modify under the MIT license
+
+## Demo
+
+Check out our interactive demo cases here:  
+[React Upload Control Demo](https://675c9582166050575d7b72e2-kpevajcgoj.chromatic.com/)
 
 ## Installation
 

@@ -88,6 +88,7 @@
     "@storybook/test": "^8.3.6",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.2.1",
+    "chromatic": "^11.20.2",
     "css-loader": "^7.1.2",
     "postcss": "^8.4.47",
     "postcss-loader": "^8.1.1",

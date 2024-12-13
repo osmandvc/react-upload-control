@@ -3,3 +3,4 @@ dist
 storybook-static
 processors
 *.tgz
+*.log
