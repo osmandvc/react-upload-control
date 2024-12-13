@@ -19,7 +19,7 @@
     "build-storybook": "storybook build"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "keywords": [
     "react",
