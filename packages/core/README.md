@@ -1,5 +1,9 @@
 # React Upload Control
 
+[![npm version](https://img.shields.io/npm/v/@osmandvc/react-upload-control.svg)](https://www.npmjs.com/package/@osmandvc/react-upload-control)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A modern, flexible file upload control for React applications.
 
 > ⚠️ **Early Release Notice:** This library is in active development! While it's already battle-tested and production-ready, we're working on comprehensive documentation and additional features. The current docs provide basic usage - stay tuned for in-depth guides, examples, and advanced customization options coming soon!
