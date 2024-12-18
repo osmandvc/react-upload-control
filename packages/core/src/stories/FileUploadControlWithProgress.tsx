@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from "react";
 import { UploadedFilesProvider } from "../providers";
 import { FileUploadControl } from "../FileUploadControl";
 import { UploadedFile, UploadFileResult } from "../types";
-import { cn } from "../utils";
+import { processPdfToJpeg } from "@osmandvc/react-upload-control-processors";
 
 function FileUploadControlWithProgress(props: PropsWithChildren) {
   function handleUpload(
@@ -130,7 +130,13 @@ function FileUploadControlWithProgress(props: PropsWithChildren) {
         throttling)
       </h1>
       <UploadedFilesProvider
-        handlers={{ onUpload: handleUpload, onFinish: handleFinish }}
+        handlers={{
+          onUpload: handleUpload,
+          onFinish: handleFinish,
+          preProcessFiles: {
+            "application/pdf": processPdfToJpeg,
+          },
+        }}
         config={{ mimeTypes: ["image/png", "image/jpeg", "application/pdf"] }}
       >
         <FileUploadControl />
