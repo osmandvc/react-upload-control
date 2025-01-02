@@ -6,13 +6,32 @@
 
 A modern, flexible file upload control for React applications.
 
-> ⚠️ **Early Release Notice:** This library is in active development! While it's already battle-tested and production-ready, we're working on comprehensive documentation and additional features. The current docs provide basic usage - stay tuned for in-depth guides, examples, and advanced customization options coming soon!
-
 React Upload Control is a free, lightweight and open-source file uploader library designed for modern React applications. This library is crafted to provide a high-quality developer experience (DX), making it easy to use for simple file uploads while offering extensive customization options for advanced use cases.
+
+## Demo
+
+Check out our interactive demo cases here:  
+[React Upload Control Demo](https://675c9582166050575d7b72e2-kpevajcgoj.chromatic.com/)
+
+## Why React Upload Control? 🤷‍♂️
+
+Born from real-world needs in a production environment, React Upload Control addresses common limitations found in existing file upload solutions. While there are many file upload libraries available, we found that most of them fell short in crucial areas:
+
+- 🔄 **No Drag-to-Reorder:** Most solutions lack built-in file ordering capabilities, a crucial feature for many applications
+- 📚 **Documentation Gaps:** Many libraries either have excessive boilerplate, insufficient documentation or lacking DX
+- 🔧 **Maintenance Issues:** Several options are outdated or no longer actively maintained
+- 🎨 **Poor UI/UX:** Many unstyled options result in subpar user interfaces
+- 🔒 **Vendor Lock-in:** Some solutions tie you to specific cloud services or platforms
+- 📦 **Bloated Dependencies:** Often file uploaders come bundled within larger UI libraries, increasing your bundle size
+
+React Upload Control was created to solve these problems, offering a standalone, modern file uploader that's both powerful and flexible. Whether you need a simple file upload control or a feature-rich solution with file processing capabilities, you can customize it to your specific needs without compromising on quality or developer experience.
+
+## Features summary 🔥
 
 - 🚀 **Modern Stack:** Built with React 18+ and TypeScript for type-safe development
 - 📁 **Drag & Drop:** Intuitive file uploading with visual feedback and validation
 - 📋 **File Management:** Drag-to-reorder capability for organizing user uploads
+- 🔄 **File Processing:** Optional pre/post-processing capabilities with [@osmandvc/react-upload-control-processors](https://www.npmjs.com/package/@osmandvc/react-upload-control-processors) or custom integrations
 - 📷 **Camera Integration:** Camera integration for capturing photos directly
 - 💻 **Developer Experience:** Simple API with comprehensive TypeScript support and documentation
 - 🌐 **Internationalization:** Built-in i18n support for multiple languages (currently English and German)
@@ -22,11 +41,6 @@ React Upload Control is a free, lightweight and open-source file uploader librar
 - 🔍 **File Preview:** Built-in preview support for images
 - ⚙️ **Unopinionated:** You decide how and where files are uploaded, no vendor lock-in
 - 🔓 **Open Source:** Free to use and modify under the MIT license
-
-## Demo
-
-Check out our interactive demo cases here:  
-[React Upload Control Demo](https://675c9582166050575d7b72e2-kpevajcgoj.chromatic.com/)
 
 ## Installation
 
@@ -389,6 +403,50 @@ interface UploadedFile {
   };
 }
 ```
+
+## File Processing
+
+React Upload Control supports file processing through the optional [@osmandvc/react-upload-control-processors](https://www.npmjs.com/package/@osmandvc/react-upload-control-processors) package. This enables you to process files before or after upload, with built-in support for PDF manipulation and extensible architecture for custom processors.
+
+```bash
+npm install @osmandvc/react-upload-control-processors
+```
+
+### Example: PDF to JPEG Conversion
+
+```tsx
+import {
+  FileUploadControl,
+  UploadedFile,
+  UploadedFilesProvider,
+  UploadFileResult,
+} from "@osmandvc/react-upload-control";
+import { processPdfToJpeg } from "@osmandvc/react-upload-control-processors";
+
+function FileUploadTest() {
+  return (
+    <div className="max-w-lg">
+      <UploadedFilesProvider
+        config={{
+          mimeTypes: ["image/png", "image/jpeg", "application/pdf"],
+          disableSorting: true,
+        }}
+        handlers={{
+          onUpload: handleUpload,
+          onFinish: handleFinish,
+          preProcessFiles: {
+            "application/pdf": processPdfToJpeg,
+          },
+        }}
+      >
+        <FileUploadControl />
+      </UploadedFilesProvider>
+    </div>
+  );
+}
+```
+
+You can see a demo of this in action [here](https://675c9582166050575d7b72e2-kpevajcgoj.chromatic.com/).
 
 ## Creating Custom Upload Sources and Destinations
 

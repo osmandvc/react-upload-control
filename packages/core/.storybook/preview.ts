@@ -11,6 +11,7 @@ const preview: Preview = {
             "Upload Control With Progress",
             "Small Upload Control",
             "Upload Control without Drag and Drop",
+            "Upload Control with PDF Pre-Processing",
           ],
         ],
       },

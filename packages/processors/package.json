@@ -1,12 +1,33 @@
 {
   "name": "@osmandvc/react-upload-control-processors",
   "version": "0.0.1",
+  "description": "File processing utilities for @osmandvc/react-upload-control package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osmandvc/react-upload-control.git"
+  },
+  "keywords": [
+    "react",
+    "upload",
+    "file-processing",
+    "pdf"
+  ],
+  "author": "osmandvc",
+  "license": "MIT",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@types/pdfjs-dist": "^2.10.378",
