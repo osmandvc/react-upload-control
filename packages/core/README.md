@@ -101,8 +101,6 @@ The upload handler receives two parameters:
 1. `files`: An array of `UploadedFile` objects to be uploaded
 2. `onProgressChange`: A callback function to update the upload progress
 
-The upload handler should return an array of `UploadFileResult` objects, which specify the success, error, and metadata for each file upload. The library will handle the UI updates based on the progress updates and final results you provide.
-
 Here are two examples of implementing an upload handler:
 
 ### Example 1: Simple Batch Upload
@@ -296,6 +294,58 @@ function MyFileUpload() {
       <FileUploadControl />
     </UploadedFilesProvider>
   );
+}
+```
+
+### Understanding UploadFileResult
+
+The upload handler must return an array of `UploadFileResult` objects - one for each uploaded file. Here's the structure:
+
+```typescript
+type UploadFileResult = {
+  // The ID of the file that was uploaded (must match the original file.id)
+  fileId: string;
+
+  // Whether the upload was successful
+  success: boolean;
+
+  // Optional error information if success is false
+  error?: {
+    text: string; // Human-readable error message
+    code: string; // Error code for programmatic handling
+  };
+
+  // Optional metadata to attach to the file
+  metadata?: {
+    [key: string]: any; // Any additional data you want to store with the file
+  };
+};
+```
+
+Example of a successful upload result:
+
+```typescript
+{
+  fileId: "file123",
+  success: true,
+  metadata: {
+    url: "https://example.com/uploads/file123.jpg",
+    uploadedAt: "2025-01-02T12:00:00Z",
+    size: 1024000
+  }
+}
+```
+
+Example of a failed upload result:
+
+```typescript
+{
+  fileId: "file456",
+  success: false,
+  error: {
+    text: "File size exceeds server limit",
+    code: "SIZE_LIMIT_EXCEEDED"
+  }
 }
 ```
 
