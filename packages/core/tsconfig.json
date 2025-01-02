@@ -20,9 +20,9 @@
   "include": ["src"],
   "exclude": [
     "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.stories.tsx"
+    "./src/stories/**/*",
+    "./dist/**/*",
+    "./storybook/**/*",
+    "./storybook-static/**/*"
   ]
 }
