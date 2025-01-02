@@ -419,41 +419,6 @@ The provider component that manages the upload state and configuration.
 | disableFileSystem | boolean                | false     | Disable file system uploads |
 | className         | string                 | undefined | Additional CSS classes      |
 
-## Understanding the UploadedFile Type
-
-When implementing your upload handlers, you'll work with the `UploadedFile` type, which provides access to various file properties:
-
-```typescript
-interface UploadedFile {
-  id: string; // Unique identifier for the file
-  file?: File; // The actual File object
-  name: string; // File name
-  size?: number; // File size in bytes
-  type: string; // MIME type
-  base64Uri?: string; // Base64 encoded file content
-  previewImg?: {
-    // Preview image data (for images)
-    imgBase64Uri: string;
-    width?: number;
-    height?: number;
-  };
-  uploadStatus: {
-    // Current upload status
-    stage?: "IDLE" | "FINISHED" | "FAILED" | "UPLOADING" | "REMOVING";
-    progress?: number; // Upload progress (0-100)
-    error?: {
-      text: string; // Error message
-      code: string; // Error code
-    };
-  };
-  order?: number; // File order in the list
-  metadata?: {
-    // Custom metadata
-    [key: string]: any;
-  };
-}
-```
-
 ## File Processing
 
 React Upload Control supports file processing through the optional [@osmandvc/react-upload-control-processors](https://www.npmjs.com/package/@osmandvc/react-upload-control-processors) package. This enables you to process files before or after upload, with built-in support for PDF manipulation and extensible architecture for custom processors.
