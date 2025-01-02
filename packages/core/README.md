@@ -11,7 +11,7 @@ React Upload Control is a free, lightweight and open-source file uploader librar
 ## Demo
 
 Check out our interactive demo cases here:  
-[React Upload Control Demo](https://675c9582166050575d7b72e2-kpevajcgoj.chromatic.com/)
+[React Upload Control Demo](https://675c9582166050575d7b72e2-bzirycxazq.chromatic.com)
 
 ## Why React Upload Control? 🤷‍♂️
 
@@ -446,7 +446,7 @@ function FileUploadTest() {
 }
 ```
 
-You can see a demo of this in action [here](https://675c9582166050575d7b72e2-kpevajcgoj.chromatic.com/).
+You can see a demo of this in action [here](https://675c9582166050575d7b72e2-bzirycxazq.chromatic.com/?path=/story/examples-upload-control-with-pdf-pre-processing--default).
 
 ## Creating Custom Upload Sources and Destinations
 
