@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Balancer from "react-wrap-balancer";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { WebcamOutputProps, useWebcam } from "@/src/components/camera";

@@ -3,6 +3,7 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
+  mode: "production",
   entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -10,7 +11,13 @@ module.exports = {
     libraryTarget: "umd",
     library: "@osmandvc/react-upload-control",
     globalObject: "this",
-    clean: true,
+    clean: {
+      keep: /index\.d\.ts$|types\.d\.ts$/,
+    },
+  },
+  optimization: {
+    usedExports: true,
+    minimize: true,
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -22,7 +29,16 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: [{
+          loader: "ts-loader",
+          options: {
+            onlyCompileBundledFiles: true,
+            compilerOptions: {
+              declaration: true,
+              declarationDir: "./dist",
+            },
+          },
+        }],
         exclude: /node_modules/,
       },
       {
@@ -31,9 +47,7 @@ module.exports = {
           "style-loader",
           {
             loader: "css-loader",
-            options: {
-              importLoaders: 1,
-            },
+            options: { importLoaders: 1 },
           },
           {
             loader: "postcss-loader",

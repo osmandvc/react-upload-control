@@ -1,9 +1,6 @@
-import {
-  FileUploadControl,
-  UploadedFile,
-  UploadedFilesProvider,
-  UploadFileResult,
-} from "@osmandvc/react-upload-control";
+import { FileUploadControl } from "../FileUploadControl";
+import { UploadedFile, UploadFileResult } from "../types";
+import { UploadedFilesProvider } from "../providers";
 import { processPdfToJpeg } from "@osmandvc/react-upload-control-processors";
 import React from "react";
 

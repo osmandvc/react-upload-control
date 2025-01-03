@@ -1,4 +1,5 @@
-import "@/src/styles/tailwind.css";
+import "./styles/tailwind.css";
+import "react-medium-image-zoom/dist/styles.css";
 
 export { FileUploadContainer } from "./FileUploadContainer";
 export { FileUploadControl } from "./FileUploadControl";

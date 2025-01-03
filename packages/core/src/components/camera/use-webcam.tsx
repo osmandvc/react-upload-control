@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useMobileDetect, useStateMachine } from "@/src/hooks";
-import { consoleError, getScaledCanvas } from "@/src/utils";
+import { getScaledCanvas } from "@/src/utils";
 import React from "react";
 
 import ReactWebcam from "./custom-react-webcam";
@@ -103,7 +103,7 @@ export function useWebcam(props: Partial<WebcamProps>) {
       const devices = await navigator.mediaDevices.enumerateDevices();
       return devices.filter((device) => device.kind === "videoinput");
     } catch (error) {
-      consoleError(error);
+      console.error(error);
     }
   }
 
@@ -185,7 +185,7 @@ export function useWebcam(props: Partial<WebcamProps>) {
 
   function handleUserMediaError(error: string | DOMException) {
     smSetStatus(ERROR, error);
-    consoleError(error);
+    console.error(error);
     onUserMediaError(error);
   }
 

@@ -6,6 +6,8 @@
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "declaration": true,
+    "declarationDir": "./dist",
+    "isolatedModules": true,
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,

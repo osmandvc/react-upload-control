@@ -1,8 +1,16 @@
 import type { Preview } from "@storybook/react";
 import "../src/styles/tailwind.css";
+import "react-medium-image-zoom/dist/styles.css";
 
 const preview: Preview = {
   parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
     options: {
       storySort: {
         order: [
@@ -14,12 +22,6 @@ const preview: Preview = {
             "Upload Control with PDF Pre-Processing",
           ],
         ],
-      },
-    },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
       },
     },
   },
