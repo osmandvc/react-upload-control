@@ -11,4 +11,5 @@ export {
   IconViewportWide as RotateIcon,
   IconFile as ImagePlaceholderIcon,
   IconDotsVertical as MoreIcon,
+  IconLoader2 as LoaderIcon,
 } from "@tabler/icons-react";

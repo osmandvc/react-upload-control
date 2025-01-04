@@ -14,10 +14,10 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import { useUploadFilesProvider } from "../../providers";
 import { FileListProps, UploadedFileItemStage } from "../../types";
 import { FileListItem } from "./FileListItem";
 import { Card, CardContent } from "@/src/ui/card";
+import { useUploadFilesProvider } from "@/src/providers";
 
 export const FileList = ({ onDragEnd }: FileListProps) => {
   const { files, smStatusIsnt, disableSorting } = useUploadFilesProvider();

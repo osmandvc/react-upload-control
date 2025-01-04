@@ -1,7 +1,7 @@
 "use client";
 import React, { PropsWithChildren } from "react";
 import { UploadedFilesProvider } from "../providers";
-import { FileUploadControl } from "../FileUploadControl";
+import { FileUploadControl } from "../components/FileUploadControl";
 import { UploadedFile, UploadFileResult } from "../types";
 
 function FileUploadControlSmall(props: PropsWithChildren) {

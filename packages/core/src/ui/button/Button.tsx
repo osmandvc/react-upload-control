@@ -92,7 +92,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {/* Render the icon or startContent unless it's loading */}
         {isLoading ? (
           <span className="animate-spin">
-            {/* Loading indicator (you can customize this to show a spinner icon) */}
+            {/* Loading indicator */}
             Loading...
           </span>
         ) : (

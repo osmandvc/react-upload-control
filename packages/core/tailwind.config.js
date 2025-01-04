@@ -2,10 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // Add your source folder
-    "./src/stories/**/*.{js,jsx,ts,tsx}", // Make sure to include Storybook stories if they are in a different directory
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./src/stories/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       height: {

@@ -2,17 +2,12 @@
 
 import React from "react";
 import { arrayMove } from "@dnd-kit/sortable";
+import { cn } from "../utils";
+import { DndResult, FileUploadControlProps } from "../types";
 
-import {
-  FileDropLarge,
-  FileDropSmall,
-  FileList,
-  FileListActions,
-  FileListContainer,
-} from "./components";
-import { useUploadFilesProvider } from "./providers";
-import { DndResult, FileUploadControlProps } from "./types";
-import { cn } from "./utils";
+import { FileList, FileListActions, FileListContainer } from "./file-list";
+import { FileDropLarge, FileDropSmall } from "./file-drop";
+import { useUploadFilesProvider } from "../providers";
 
 /**
  * The Default File-Upload-Control Component with a Drop-Area and a List which displays the Files.

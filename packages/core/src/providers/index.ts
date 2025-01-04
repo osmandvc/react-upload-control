@@ -1,2 +1,2 @@
-export * from "./UploadedFilesManager";
-export * from "./UploadedFilesProvider";
+export { UploadedFilesProvider } from "./UploadedFilesProvider";
+export { useUploadFilesProvider } from "./UploadedFilesManager";

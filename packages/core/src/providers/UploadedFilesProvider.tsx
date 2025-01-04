@@ -2,7 +2,7 @@ import React from "react";
 
 import { IntlProvider } from "react-intl";
 
-import { UploadedFilesManager } from ".";
+import { UploadedFilesManager } from "./UploadedFilesManager";
 import de from "../translations/de.json";
 import en from "../translations/en.json";
 import { UploadedFilesProviderProps } from "../types";

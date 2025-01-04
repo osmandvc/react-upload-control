@@ -1,7 +1,6 @@
 import React from "react";
 import { PropsWithChildren } from "react";
-
-import { cn } from "./utils";
+import { cn } from "../utils";
 
 /**
  * The Default Container for the File Upload Control
@@ -15,5 +14,5 @@ export const FileUploadContainer = ({
   className,
   children,
 }: ContainerProps) => {
-  return <div className={cn(className, "h-full w-full")}>{children}</div>;
+  return <div className={cn(className, "w-full h-full")}>{children}</div>;
 };

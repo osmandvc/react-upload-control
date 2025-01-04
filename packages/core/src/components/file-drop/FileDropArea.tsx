@@ -1,12 +1,11 @@
 import React, { useRef } from "react";
 import { type DragEvent } from "react";
-import { ClipLoader } from "react-spinners";
 
 import { FormattedMessage } from "react-intl";
 
 import { useUploadFilesProvider } from "../../providers";
 import { FileDropProps } from "../../types";
-import { UploadIcon } from "../../ui/icons";
+import { LoaderIcon, UploadIcon } from "../../ui/icons";
 import {
   Tooltip,
   TooltipTrigger,
@@ -62,7 +61,7 @@ export const FileDropArea = (props: FileDropProps) => {
   const Processing = () => (
     <div className="flex gap-2 items-center text-default-500">
       <FormattedMessage id="FileDropArea.processingText" />
-      <ClipLoader size={16} />
+      <LoaderIcon size={16} />
     </div>
   );
 

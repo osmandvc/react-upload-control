@@ -9,10 +9,14 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
     libraryTarget: "umd",
-    library: "@osmandvc/react-upload-control",
+    library: {
+      name: "@osmandvc/react-upload-control",
+      type: "umd",
+      umdNamedDefine: true,
+    },
     globalObject: "this",
     clean: {
-      keep: /index\.d\.ts$|types\.d\.ts$/,
+      keep: /\.d\.ts$/,
     },
   },
   optimization: {
@@ -24,42 +28,6 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname),
     },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: [{
-          loader: "ts-loader",
-          options: {
-            onlyCompileBundledFiles: true,
-            compilerOptions: {
-              declaration: true,
-              declarationDir: "./dist",
-            },
-          },
-        }],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          "style-loader",
-          {
-            loader: "css-loader",
-            options: { importLoaders: 1 },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [require("tailwindcss"), require("autoprefixer")],
-              },
-            },
-          },
-        ],
-      },
-    ],
   },
   externals: {
     react: {
@@ -74,6 +42,23 @@ module.exports = {
       amd: "react-dom",
       root: "ReactDOM",
     },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/i,
+        type: "asset/resource",
+      },
+    ],
   },
   plugins: [...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : [])],
 };

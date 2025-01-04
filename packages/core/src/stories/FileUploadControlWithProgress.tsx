@@ -1,9 +1,9 @@
 "use client";
 import React, { PropsWithChildren } from "react";
 import { UploadedFilesProvider } from "../providers";
-import { FileUploadControl } from "../FileUploadControl";
 import { UploadedFile, UploadFileResult } from "../types";
 import { processPdfToJpeg } from "@osmandvc/react-upload-control-processors";
+import { FileUploadControl } from "../components/FileUploadControl";
 
 function FileUploadControlWithProgress(props: PropsWithChildren) {
   function handleUpload(

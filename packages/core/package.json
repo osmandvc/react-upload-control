@@ -2,8 +2,9 @@
   "name": "@osmandvc/react-upload-control",
   "version": "0.3.2",
   "description": "A completely free and open-source file uploader library designed for modern react applications. This package focuses on delivering a feature-rich experience while prioritizing an exceptional developer experience (DX). Whether you're handling simple uploads or complex multi-file scenarios, this library offers powerful customization, seamless integration, and a smooth workflow for developers. Perfect for those who need an efficient, flexible, and easy-to-use file uploader solution in their projects.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": [
     "*.css",
     "react-medium-image-zoom/dist/styles.css"
@@ -68,7 +69,6 @@
     "nanoid": "^5.0.7",
     "react-intl": "^6.4.0",
     "react-medium-image-zoom": "^5.2.10",
-    "react-spinners": "^0.14.1",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"

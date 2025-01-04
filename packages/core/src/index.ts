@@ -1,9 +1,11 @@
-import "./styles/tailwind.css";
+// Styles
 import "react-medium-image-zoom/dist/styles.css";
 
-export { FileUploadContainer } from "./FileUploadContainer";
-export { FileUploadControl } from "./FileUploadControl";
-export { UploadedFilesProvider } from "./providers";
-export { isFileDropError } from "./utils";
+// Core functionality
+export { UploadedFilesProvider, useUploadFilesProvider } from "./providers";
 
+// UI
+export { FileUploadControl } from "./components";
+
+// Types
 export * from "./types";
