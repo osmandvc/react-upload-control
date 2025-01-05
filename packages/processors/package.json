@@ -30,12 +30,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@types/pdfjs-dist": "^2.10.378",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.9.155"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@types/pdfjs-dist": "^2.10.378",
     "ts-loader": "^9.4.0",
     "typescript": "^5.0.0",
     "webpack": "^5.88.0",

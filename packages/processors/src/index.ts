@@ -1,1 +1,1 @@
-export * from "./pdf/process-pdf-to-jpeg";
+export { processPdfToJpeg } from "./pdf/process-pdf-to-jpeg";
