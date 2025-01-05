@@ -3,9 +3,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { WebcamOutputProps, useWebcam } from "@/src/components/camera";
 import { useUploadFilesProvider } from "../providers/UploadedFilesManager";
-import { FileLoaderCameraProps } from "../types";
 
-import { CameraIcon } from "../ui/icons";
+import { CameraIcon, LoaderIcon } from "../ui/icons";
 import { addUniqueTimestamp, cn } from "../utils";
 
 import {
@@ -25,15 +24,16 @@ import {
   SelectItem,
   SelectValue,
 } from "@/src/ui/select";
+import { FileLoaderAction } from "../types";
 
 type CameraSelectItem = {
   value: string;
   label: string;
 };
 
-export const FileLoaderCamera = (props: FileLoaderCameraProps) => {
+export const FileLoaderCamera = (props: FileLoaderAction) => {
   const intl = useIntl();
-  const defaultProps: Partial<FileLoaderCameraProps> = {
+  const defaultProps: Partial<FileLoaderAction> = {
     onlyIcon: false,
   };
 
@@ -172,7 +172,7 @@ export const FileLoaderCamera = (props: FileLoaderCameraProps) => {
           <div className="p-0">
             {userMediaStatus === "LOADING" && (
               <div className="grid place-items-center w-full h-full">
-                Loading...
+                <LoaderIcon className="animate-spin text-primary" size={32} />
               </div>
             )}
             <WebcamComponent />

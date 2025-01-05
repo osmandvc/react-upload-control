@@ -271,16 +271,15 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     if (!finishedFiles) return;
 
     return finishedFiles
-      .map((file) => {
+      .map((file, index) => {
         const uploadedFile: UploadedFile = {
           ...(file as UploadedFilePublic),
-          order: maxOrder,
+          order: maxOrder + index,
           uploadStatus: {
             stage: UploadedFileItemStage.IDLE,
             progress: 0,
           },
         };
-        maxOrder += 1;
         return uploadedFile;
       })
       .sort((a, b) => a.order! - b.order!);

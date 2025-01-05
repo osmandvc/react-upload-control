@@ -12,4 +12,5 @@ export {
   IconFile as ImagePlaceholderIcon,
   IconDotsVertical as MoreIcon,
   IconLoader2 as LoaderIcon,
+  IconClipboard as ClipboardIcon,
 } from "@tabler/icons-react";

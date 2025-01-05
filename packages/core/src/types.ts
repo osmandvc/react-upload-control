@@ -167,19 +167,15 @@ export interface ScaledImage extends FormImage {
 export type FileLoaderActionsProps = {
   disableCamera?: boolean;
   disableFileSystem?: boolean;
+  disableClipboard?: boolean;
   isMinimal?: boolean;
   disabled?: boolean;
 };
 
-export type FileLoaderFileSystemProps = {
+export interface FileLoaderAction {
   className?: string;
   onlyIcon?: boolean;
-};
-
-export type FileLoaderCameraProps = {
-  className?: string;
-  onlyIcon?: boolean;
-};
+}
 
 export interface ScaledImageBinary extends ScaledImage {
   uri: string;

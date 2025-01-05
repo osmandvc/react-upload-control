@@ -8,7 +8,6 @@ export async function processPdfToJpeg(
   files: UploadedFilePublic[]
 ): Promise<UploadedFilePublic[]> {
   const generatedPages: UploadedFilePublic[] = [];
-  console.log("test");
 
   for (const file of files) {
     if (!file.base64Uri) continue;
@@ -19,7 +18,6 @@ export async function processPdfToJpeg(
         maxNumPages: 0,
         name: file.name,
       });
-      console.log(pages);
 
       const pdfDoc = await PDFDocument.load(file.base64Uri);
       const transformedPages: UploadedFilePublic[] = pages.map(

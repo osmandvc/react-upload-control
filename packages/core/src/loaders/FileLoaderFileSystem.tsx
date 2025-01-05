@@ -2,13 +2,14 @@ import React, { useRef } from "react";
 import { FormattedMessage } from "react-intl";
 
 import { useUploadFilesProvider } from "../providers/UploadedFilesManager";
-import { FileLoaderFileSystemProps } from "../types";
+
 import { Button } from "../ui/button/Button";
 import { FolderIcon } from "../ui/icons";
 import { cn } from "../utils";
+import { FileLoaderAction } from "../types";
 
-export const FileLoaderFileSystem = (props: FileLoaderFileSystemProps) => {
-  const defaultProps: Partial<FileLoaderFileSystemProps> = {
+export const FileLoaderFileSystem = (props: FileLoaderAction) => {
+  const defaultProps: Partial<FileLoaderAction> = {
     onlyIcon: false,
   };
 

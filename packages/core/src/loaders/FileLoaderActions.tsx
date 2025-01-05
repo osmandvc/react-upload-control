@@ -1,17 +1,19 @@
 import React from "react";
 
-import { FileLoaderFileSystem } from ".";
-import { FileLoaderCamera } from ".";
+import { FileLoaderFileSystem } from "./FileLoaderFileSystem";
+import { FileLoaderCamera } from "./FileLoaderCamera";
 import { FileLoaderActionsProps } from "../types";
+import FileLoaderClipboard from "./FileLoaderClipboard";
 
 export const FileLoaderActions = (props: FileLoaderActionsProps) => {
   const defaultProps: FileLoaderActionsProps = {
     disableCamera: false,
     disableFileSystem: false,
+    disableClipboard: false,
     isMinimal: false,
   };
 
-  const { disableCamera, disableFileSystem, isMinimal } = {
+  const { disableCamera, disableFileSystem, disableClipboard, isMinimal } = {
     ...defaultProps,
     ...props,
   };
@@ -25,6 +27,9 @@ export const FileLoaderActions = (props: FileLoaderActionsProps) => {
           {!disableCamera && (
             <FileLoaderCamera className="text-sm md:justify-start" />
           )}
+          {!disableClipboard && (
+            <FileLoaderClipboard className="text-sm md:justify-start" />
+          )}
         </div>
       )}
       {isMinimal && (
@@ -36,10 +41,14 @@ export const FileLoaderActions = (props: FileLoaderActionsProps) => {
             {!disableCamera && (
               <FileLoaderCamera onlyIcon className="text-xs" />
             )}
+            {!disableClipboard && (
+              <FileLoaderClipboard onlyIcon className="text-xs" />
+            )}
           </div>
           <div className="hidden gap-2 sm:flex">
             {!disableFileSystem && <FileLoaderFileSystem className="text-xs" />}
             {!disableCamera && <FileLoaderCamera className="text-xs" />}
+            {!disableClipboard && <FileLoaderClipboard className="text-xs" />}
           </div>
         </>
       )}

@@ -27,6 +27,9 @@
   "FileLoaderFileSystem": {
     "text": "Browse files"
   },
+  "FileLoaderClipboard": {
+    "text": "Insert from Clipboard"
+  },
   "FileLoaderCamera": {
     "text": "Camera",
     "allowCameraText": "If you get asked for camera access, please permit it.",

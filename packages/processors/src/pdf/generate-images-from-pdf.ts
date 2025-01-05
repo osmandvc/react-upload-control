@@ -39,7 +39,6 @@ export async function createImagesFromPdf(
   };
 
   if (!base64Uri) throw new Error("No image uri provided.");
-  console.log("in");
 
   // Remove the data URL prefix if present
   const pdfData = base64Uri.replace(/^data:application\/pdf;base64,/, "");
@@ -94,7 +93,6 @@ export async function createImagesFromPdf(
           (blob) =>
             new File([blob], `${name}_page${i + 1}`, { type: targetFormat })
         );
-      console.log(file);
 
       pages.push({
         uriBase64: dataUrl,

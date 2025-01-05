@@ -7,6 +7,8 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  TouchSensor,
+  MouseSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -24,7 +26,8 @@ export const FileList = ({ onDragEnd }: FileListProps) => {
   const hasFiles = !!files.length;
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {}),
+    useSensor(MouseSensor, {}),
+    useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })

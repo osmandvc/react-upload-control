@@ -27,6 +27,9 @@
   "FileLoaderFileSystem": {
     "text": "Durchsuchen"
   },
+  "FileLoaderClipboard": {
+    "text": "Von Zwischenablage einfügen"
+  },
   "FileLoaderCamera": {
     "text": "Kamera",
     "allowCameraText": "Falls Sie dazu aufgefordert werden, erlauben Sie bitte den Kamerazugriff.",
