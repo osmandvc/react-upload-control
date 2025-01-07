@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 /// based upon use-mobile-detect-hook project v1.0.5 on github from 14.06.2023

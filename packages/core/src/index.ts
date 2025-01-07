@@ -1,6 +1,3 @@
-// Styles
-import "react-medium-image-zoom/dist/styles.css";
-
 // Core functionality
 export { UploadedFilesProvider, useUploadFilesProvider } from "./providers";
 

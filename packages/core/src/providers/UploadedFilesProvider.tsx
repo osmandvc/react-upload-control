@@ -6,7 +6,6 @@ import { UploadedFilesManager } from "./UploadedFilesManager";
 import de from "../translations/de.json";
 import en from "../translations/en.json";
 import { UploadedFilesProviderProps } from "../types";
-import "@/src/styles/tailwind.css";
 import { Toaster } from "sonner";
 
 const translations = { de, en };

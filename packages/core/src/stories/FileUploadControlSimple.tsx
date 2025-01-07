@@ -1,4 +1,3 @@
-"use client";
 import React, { PropsWithChildren } from "react";
 import { UploadedFilesProvider } from "../providers";
 import { FileUploadControl } from "../components/FileUploadControl";

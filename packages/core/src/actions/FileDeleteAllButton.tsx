@@ -1,4 +1,3 @@
-import React from "react";
 import { useIntl } from "react-intl"; // Import useIntl from react-intl
 
 import { useUploadFilesProvider } from "../providers/UploadedFilesManager";

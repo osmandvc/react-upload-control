@@ -1,9 +1,6 @@
-"use client";
-
 import React, { createContext, useState } from "react";
 import { useIntl } from "react-intl";
 
-import { nanoid } from "nanoid";
 import { toast } from "sonner";
 import { FormattedMessage } from "react-intl";
 
@@ -23,6 +20,7 @@ import {
   FileUploadConfig,
 } from "../types";
 import { isFileDropError } from "../utils";
+import { generateId } from "../utils/generate-id";
 
 export interface ContextProps {
   files: UploadedFile[];
@@ -207,7 +205,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     updatedFiles.splice(
       index,
       1,
-      ...preProcessedFiles.map((file) => ({ ...file, id: nanoid() }))
+      ...preProcessedFiles.map((file) => ({ ...file, id: generateId() }))
     );
     return updatedFiles;
   }
@@ -249,7 +247,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
         const base64String = (await blobToBase64(file as File)) as string;
 
         const uploadedFile: UploadedFilePublic = {
-          id: nanoid(),
+          id: generateId(),
           file,
           name: file.name,
           size: file.size,

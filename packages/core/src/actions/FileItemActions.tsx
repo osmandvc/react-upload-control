@@ -1,5 +1,3 @@
-import React from "react";
-
 import { IconCheck } from "@tabler/icons-react";
 
 import { useUploadFilesProvider } from "../providers/UploadedFilesManager";

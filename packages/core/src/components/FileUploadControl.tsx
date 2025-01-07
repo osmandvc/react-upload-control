@@ -1,10 +1,7 @@
-"use client";
-
-import React from "react";
+import "../styles/tailwind.css";
 import { arrayMove } from "@dnd-kit/sortable";
 import { cn } from "../utils";
 import { DndResult, FileUploadControlProps } from "../types";
-
 import { FileList, FileListActions, FileListContainer } from "./file-list";
 import { FileDropLarge, FileDropSmall } from "./file-drop";
 import { useUploadFilesProvider } from "../providers";

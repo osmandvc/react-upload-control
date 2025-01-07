@@ -1,10 +1,7 @@
-"use client";
-
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useMobileDetect, useStateMachine } from "@/src/hooks";
 import { getScaledCanvas } from "@/src/utils";
-import React from "react";
 
 import ReactWebcam from "./custom-react-webcam";
 

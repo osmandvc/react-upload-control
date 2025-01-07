@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef, ChangeEvent } from "react";
 import { type DragEvent } from "react";
 
 import { FormattedMessage } from "react-intl";
@@ -37,7 +37,7 @@ export const FileDropArea = (props: FileDropProps) => {
     }
   };
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.target.files && e.target.files.length > 0) {

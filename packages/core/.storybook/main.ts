@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-webpack5";
+import webpack from "webpack";
 
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
@@ -40,6 +41,13 @@ const config: StorybookConfig = {
         extensions: config.resolve!.extensions,
       }),
     ];
+
+    config.plugins!.push(
+      new webpack.ProvidePlugin({
+        React: "react",
+      })
+    );
+
     return config;
   },
 };

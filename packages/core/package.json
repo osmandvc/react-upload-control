@@ -2,13 +2,9 @@
   "name": "@osmandvc/react-upload-control",
   "version": "0.3.2",
   "description": "A completely free and open-source file uploader library designed for modern react applications. This package focuses on delivering a feature-rich experience while prioritizing an exceptional developer experience (DX). Whether you're handling simple uploads or complex multi-file scenarios, this library offers powerful customization, seamless integration, and a smooth workflow for developers. Perfect for those who need an efficient, flexible, and easy-to-use file uploader solution in their projects.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
-  "sideEffects": [
-    "*.css",
-    "react-medium-image-zoom/dist/styles.css"
-  ],
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/osmandvc/react-upload-control.git"
@@ -19,8 +15,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc && webpack --mode production",
-    "start": "webpack serve --mode development",
+    "build": "rollup -c",
+    "start": "rollup -c -w",
     "test": "jest",
     "lint": "eslint src/**/*.ts src/**/*.tsx",
     "storybook": "storybook dev -p 6006",
@@ -64,9 +60,6 @@
     "@radix-ui/react-tooltip": "^1.1.3",
     "@tabler/icons-react": "^3.19.0",
     "class-variance-authority": "^0.7.0",
-    "date-fns": "^4.1.0",
-    "filesize": "^10.1.6",
-    "nanoid": "^5.0.7",
     "react-intl": "^6.4.0",
     "react-medium-image-zoom": "^5.2.10",
     "sonner": "^1.5.0",
@@ -79,6 +72,7 @@
     "@babel/preset-react": "^7.25.7",
     "@babel/preset-typescript": "^7.25.7",
     "@osmandvc/react-upload-control-processors": "file:../processors/osmandvc-react-upload-control-processors-0.0.1.tgz",
+    "@rollup/plugin-json": "^6.1.0",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-interactions": "^8.3.6",
     "@storybook/addon-links": "^8.3.6",
@@ -99,6 +93,7 @@
     "postcss": "^8.4.47",
     "postcss-loader": "^8.1.1",
     "process": "^0.11.10",
+    "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^8.3.6",
     "style-loader": "^4.0.0",
     "tailwind-scrollbar": "^3.1.0",

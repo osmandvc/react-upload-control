@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
+import "react-medium-image-zoom/dist/styles.css";
 import { Progress } from "@/src/ui/progress";
-import { filesize } from "filesize";
 import { ImageZoom } from "@/src/ui/image-zoom";
 import { FileItemActions } from "../../actions";
 import {
@@ -13,6 +12,7 @@ import {
 } from "../../types";
 import { ImagePlaceholderIcon, MoveIcon } from "../../ui/icons";
 import { toast } from "sonner";
+import { formatBytes } from "@/src/utils/format-bytes";
 
 const ProgressBar = React.memo(
   ({
@@ -98,7 +98,7 @@ export const FileListItem = ({
               </h3>
               {size && (
                 <span className="text-xs text-gray-500 dark:text-gray-300">
-                  {filesize(size, { standard: "jedec", round: 1 })}
+                  {formatBytes(size, 1)}
                 </span>
               )}
             </div>

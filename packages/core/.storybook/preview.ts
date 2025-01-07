@@ -1,6 +1,4 @@
 import type { Preview } from "@storybook/react";
-import "../src/styles/tailwind.css";
-import "react-medium-image-zoom/dist/styles.css";
 
 const preview: Preview = {
   parameters: {
