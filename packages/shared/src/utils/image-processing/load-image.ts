@@ -1,4 +1,4 @@
-import { ScaledImage, ScaledImageBinary } from "./types";
+import { ScaledImage, ScaledImageBinary } from "../../types";
 
 const getMimeType = (uriBase64: string) => {
   // eg. "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAA..."

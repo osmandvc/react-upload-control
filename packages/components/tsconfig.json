@@ -6,22 +6,15 @@
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "declaration": true,
-    "declarationDir": "./dist",
-    "rootDir": "./src",
-    "outDir": "./dist",
     "isolatedModules": true,
+    "declarationDir": "dist",
+    "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "baseUrl": "."
   },
   "include": ["src/**/*"],
   "exclude": [

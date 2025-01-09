@@ -1,13 +1,11 @@
 import React, { createContext, useState } from "react";
-import { useIntl } from "react-intl";
-
-import { toast } from "sonner";
-import { FormattedMessage } from "react-intl";
-
-import { SUPPORTED_MIME_TYPES } from "@/src/utils/file-types";
-import { blobToBase64 } from "@/src/utils/image-processing";
-
-import { useStateMachine } from "../hooks";
+import {
+  blobToBase64,
+  generateId,
+  isFileDropError,
+  SUPPORTED_MIME_TYPES,
+  useStateMachine,
+} from "@osmandvc/react-upload-control-shared";
 import {
   FileDropError,
   FileDropErrorType,
@@ -19,8 +17,6 @@ import {
   UploadedFilesManagerProps,
   FileUploadConfig,
 } from "../types";
-import { isFileDropError } from "../utils";
-import { generateId } from "../utils/generate-id";
 
 export interface ContextProps {
   files: UploadedFile[];
@@ -70,18 +66,24 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
 
   const { smStatus, smSetStatus, smStatusIs, smStatusIsnt } =
     useStateMachine("IDLE");
-  const intl = useIntl();
 
-  function toastError(error: FileDropError | unknown) {
-    isFileDropError(error)
-      ? toast.error(error.error.text)
-      : toast.error(
-          <FormattedMessage
-            id="UploadedFilesManager.unknownError"
-            values={{ error: String(error) }}
-          />
+  const showError = async (error: FileDropError | unknown) => {
+    if (onAddFileError) {
+      onAddFileError(error);
+    } else {
+      try {
+        const { toast } = await import("sonner");
+        isFileDropError(error)
+          ? toast.error(error.error.text)
+          : toast.error(`An unknown error occurred: ${String(error)}`);
+      } catch (e) {
+        console.error(
+          "sonner is not installed. Please install sonner or provide an onAddFileError handler.",
+          error
         );
-  }
+      }
+    }
+  };
 
   function getValidationInfo() {
     return {
@@ -101,15 +103,13 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
   function validateFiles(filesInput: File[] | UploadedFilePublic[]) {
     let validFiles: (File | UploadedFilePublic)[] = [];
     let errors: FileDropError[] = [];
-    const errorHandler = onAddFileError ?? toastError;
+    const errorHandler = onAddFileError ?? showError;
 
     if (!multiple && filesInput.length > 1) {
       errors.push({
         error: {
           type: FileDropErrorType.MULTIPLE_NOT_ALLOWED,
-          text: intl.formatMessage({
-            id: "UploadedFilesManager.multipleError",
-          }),
+          text: "Only one file is allowed",
         },
       });
       errorHandler(errors[0]);
@@ -123,14 +123,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     ) {
       errors.push({
         error: {
-          text: intl.formatMessage(
-            {
-              id: "UploadedFilesManager.maxFilesNumberError",
-            },
-            {
-              maxFiles,
-            }
-          ),
+          text: `Maximum number of files exceeded. Maximum allowed is ${maxFiles}`,
           type: FileDropErrorType.MAX_FILES_NUMBER,
         },
       });
@@ -141,14 +134,9 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
       if (!mimeTypes.includes(file.type)) {
         const error = {
           error: {
-            text: intl.formatMessage(
-              { id: "UploadedFilesManager.invalidFileError" },
-              {
-                mimeTypes: mimeTypes.toString(),
-                fileName: file.name,
-              }
-            ),
-
+            text: `Invalid file type. Supported types are: ${mimeTypes
+              .map((type) => type.split("/")[1])
+              .join(", ")}`,
             type: FileDropErrorType.INVALID_FILE,
           },
         };
@@ -157,12 +145,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
       } else if (file.size! * Math.pow(10, -6) > maxFileSizeMb) {
         const error = {
           error: {
-            text: intl.formatMessage(
-              { id: "UploadedFilesManager.fileSizeError" },
-              {
-                fileName: file.name,
-              }
-            ),
+            text: `File is too large. Maximum file size is ${maxFileSizeMb}MB`,
             type: FileDropErrorType.MAXSIZE,
           },
         };
@@ -284,7 +267,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
   }
 
   async function addFiles(files: File[]) {
-    const errorHandler = onAddFileError ?? toastError;
+    const errorHandler = onAddFileError ?? showError;
     try {
       smSetStatus("PROCESSING");
 

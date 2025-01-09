@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@osmandvc/react-upload-control": ["packages/core/src"],
+      "@osmandvc/react-upload-control-components": ["packages/components/src"],
+      "@osmandvc/react-upload-control-shared": ["packages/shared/src"],
+      "@osmandvc/react-upload-control-processors": ["packages/processors/src"]
+    }
+  },
+  "files": []
+}

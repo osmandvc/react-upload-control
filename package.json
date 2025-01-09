@@ -9,8 +9,8 @@
     "dev": "cd packages/core && npm run start",
     "test": "cd packages/core && npm run test",
     "lint": "cd packages/core && npm run lint",
-    "storybook": "cd packages/core && npm run storybook",
-    "build-storybook": "cd packages/core && npm run build-storybook"
+    "storybook": "cd packages/components && npm run storybook",
+    "build-storybook": "cd packages/components && npm run build-storybook"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",
