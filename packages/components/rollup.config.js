@@ -17,7 +17,7 @@ export default {
       format: "esm",
     },
   ],
-  external: [...Object.keys(pkg.peerDependencies)],
+  external: [...Object.keys(pkg.peerDependencies), "react/jsx-runtime"],
   plugins: [
     resolve({
       extensions: [".ts", ".tsx", ".js", ".jsx"],
