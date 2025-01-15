@@ -21,19 +21,23 @@ export interface FileUploadConfig {
   disableSorting?: boolean;
 }
 
+export type UploadProgressError = {
+  text: string;
+  code: string;
+};
+
+export type OnProgressCallback = (
+  fileId: string,
+  progress: number,
+  error?: UploadProgressError
+) => void;
+
 export interface FileUploadHandlers {
   onUpload: (
     files: UploadedFile[],
-    onProgressChange: (
-      fileId: string,
-      progress: number,
-      error?: {
-        text: string;
-        code: string;
-      }
-    ) => void
-  ) => Promise<UploadFileResult[]>; // Upload Callback for FileItems
-  onDelete?: (files: UploadedFile[]) => Promise<UploadFileResult[]>; // Cleanup Callback for FileItems
+    onProgressChange: OnProgressCallback
+  ) => Promise<UploadFileResult[]> | UploadFileResult[]; // Upload Callback for FileItems
+  onDelete?: (files: UploadedFile[]) => Promise<UploadFileResult[]> | UploadFileResult[]; // Cleanup Callback for FileItems
   onFinish: (files: UploadedFile[]) => void;
   onAddFileError?: (error: unknown | FileDropError) => void;
   preProcessFiles?: FilePreProcessor;

@@ -1,12 +1,10 @@
-# React Upload Control
+# React Upload Control Core
 
 [![npm version](https://img.shields.io/npm/v/@osmandvc/react-upload-control.svg)](https://www.npmjs.com/package/@osmandvc/react-upload-control)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern, flexible file upload control for React applications.
-
-React Upload Control is a free, lightweight and open-source file uploader library designed for modern React applications. This library is crafted to provide a high-quality developer experience (DX), making it easy to use for simple file uploads while offering extensive customization options for advanced use cases.
+The core package of React Upload Control, providing the essential hooks and providers for file upload management in React applications. This package is part of the React Upload Control ecosystem, designed to be lightweight and tree-shakable.
 
 ## Demo
 
@@ -17,91 +15,64 @@ Check out our interactive demo cases here:
 
 Born from real-world needs in a production environment, React Upload Control addresses common limitations found in existing file upload solutions. While there are many file upload libraries available, we found that most of them fell short in crucial areas:
 
-- 🔄 **No Drag-to-Reorder:** Most solutions lack built-in file ordering capabilities, a crucial feature for many applications
 - 📚 **Documentation Gaps:** Many libraries either have excessive boilerplate, insufficient documentation or lacking DX
 - 🔧 **Maintenance Issues:** Several options are outdated or no longer actively maintained
-- 🎨 **Poor UI/UX:** Many unstyled options result in subpar user interfaces
 - 🔒 **Vendor Lock-in:** Some solutions tie you to specific cloud services or platforms
 - 📦 **Bloated Dependencies:** Often file uploaders come bundled within larger UI libraries, increasing your bundle size
 
-React Upload Control was created to solve these problems, offering a standalone, modern file uploader that's both powerful and flexible. Whether you need a simple file upload control or a feature-rich solution with file processing capabilities, you can customize it to your specific needs without compromising on quality or developer experience.
+React Upload Control was created to solve these problems, offering a powerful and flexible core that you can build upon. Whether you need a simple file upload implementation or want to build a feature-rich solution, you can customize it to your specific needs without compromising on quality or developer experience.
 
-## Features summary 🔥
+## Features 🔥
 
 - 🚀 **Modern Stack:** Built with React 18+ and TypeScript for type-safe development
-- 📁 **Drag & Drop:** Intuitive file uploading with visual feedback and validation
-- 📋 **File Management:** Drag-to-reorder capability for organizing user uploads
-- 🔄 **File Processing:** Optional pre/post-processing capabilities with [@osmandvc/react-upload-control-processors](https://www.npmjs.com/package/@osmandvc/react-upload-control-processors) or custom integrations
-- 📷 **Camera Integration:** Camera integration for capturing photos directly
-- 💻 **Developer Experience:** Simple API with comprehensive TypeScript support and documentation
-- 🌐 **Internationalization:** Built-in i18n support for multiple languages (currently English and German)
-- 🎨 **Beautiful UI:** Modern, responsive design powered by Tailwind CSS
-- 📱 **Mobile Ready:** Optimized experience across all device sizes
+- 🎯 **Core Functionality:** Provides the essential hooks and providers for file upload management
+- 🌳 **Tree Shakable:** Only import what you need, keeping your bundle size minimal
+- ⚛️ **State Management:** Built-in state machine for handling upload lifecycle
+- 🔄 **File Ordering:** Built-in file ordering system with programmatic reordering capabilities
 - ⚡ **Async Processing:** Handle file uploads asynchronously with progress updates
-- 🔍 **File Preview:** Built-in preview support for images
+- 💻 **Developer Experience:** Simple API with comprehensive TypeScript support
 - ⚙️ **Unopinionated:** You decide how and where files are uploaded, no vendor lock-in
 - 🔓 **Open Source:** Free to use and modify under the MIT license
+- 📦 **Lightweight:** Zero dependencies (except for optional toaster notifications)
 
 ## Installation
 
-To install React Upload Control, use npm or yarn:
-
 ```bash
 npm install @osmandvc/react-upload-control
+
+# Optional: Install sonner if you want built-in toast notifications
+npm install sonner
 ```
 
-or
+## Pre-built Components
 
-```bash
-yarn add @osmandvc/react-upload-control
-```
+Looking for a complete UI solution? Check out [@osmandvc/react-upload-control-components](https://www.npmjs.com/package/@osmandvc/react-upload-control-components), our official UI components package that provides:
 
-## Getting Started
+- Drag & Drop upload zone
+- File list with reordering capabilities
+- Progress indicators
+- Camera integration
+- And more!
 
-This section will guide you through the process of setting up everything you need to get started. The library is built around the concept of providers and the React Context API, which means you need to wrap your application in a `UploadedFilesProvider` provider. If you want to use the default use case of a list of files and a drop area, you can do this by wrapping your `FileUploadControl` component in the provider. An minimal example of this can be seen below:
+While this is currently the only pre-built component package, we welcome community-built components and plan to integrate more solutions in the future. The core package's flexible architecture makes it easy to build custom UI components on top of it.
+
+## Basic Usage
 
 ```tsx
-import React, { PropsWithChildren } from "react";
 import {
-  FileUploadControl,
   UploadedFilesProvider,
-  UploadedFile,
-  UploadFileResult,
-} from "react-upload-control";
+  useUploadFilesProvider,
+} from "@osmandvc/react-upload-control";
 
-function MyFileUploadParent(props: PropsWithChildren) {
-  // Your custom delete and upload handlers (more about them later)...
-  // function handleDelete(files: UploadedFile[]) {...}
-  // function handleUpload(files: UploadedFile[], onProgressChange: (...) => void) {...}
+function MyUploadComponent() {
+  const uploadProvider = useUploadFilesProvider();
+  const { files, addFiles, uploadAllFiles } = uploadProvider;
 
-  function handleFinish(files: UploadedFile[]) {
-    console.log(files);
-  }
-
-  return (
-    <UploadedFilesProvider
-      handlers={{ onUpload: handleUpload, onFinish: handleFinish }}
-      config={{
-        mimeTypes: ["image/png", "image/jpeg"],
-        disableSorting: false, // Disable drag-to-reorder functionality
-      }}
-    >
-      <FileUploadControl />
-    </UploadedFilesProvider>
-  );
+  return <div>{/* Build your own UI components */}</div>;
 }
 ```
 
-## Upload Handler Guide
-
-The upload handler is a crucial part of the library that gives you complete control over how files are processed and uploaded.
-
-The upload handler receives two parameters:
-
-1. `files`: An array of `UploadedFile` objects to be uploaded
-2. `onProgressChange`: A callback function to update the upload progress
-
-Here are two examples of implementing an upload handler:
+## Upload Handler Examples
 
 ### Example 1: Simple Batch Upload
 
@@ -122,9 +93,9 @@ async function handleUpload(
 
     // Create form data with all files
     const formData = new FormData();
-    files.forEach((file, index) => {
+    files.forEach((file) => {
       if (file.file) {
-        formData.append(`files`, file.file);
+        formData.append("files", file.file);
       }
     });
 
@@ -138,9 +109,7 @@ async function handleUpload(
       throw new Error("Upload failed");
     }
 
-    // Example API response with processed file data
     const result = await response.json();
-    // { success: true, files: [{ id: "...", url: "..." }] }
 
     // Set progress to 100% for all files after successful upload
     files.forEach((file) => {
@@ -157,13 +126,12 @@ async function handleUpload(
       },
     }));
   } catch (error) {
-    // Set error state for all files
+    // Handle errors
     const errorResult = {
       text: error.message || "Upload failed",
       code: "BATCH_UPLOAD_ERROR",
     };
 
-    // Return error results for all files
     return files.map((file) => ({
       fileId: file.id,
       success: false,
@@ -171,34 +139,12 @@ async function handleUpload(
     }));
   }
 }
-
-// Usage with the UploadedFilesProvider
-function MyFileUpload() {
-  return (
-    <UploadedFilesProvider
-      handlers={{
-        onUpload: handleUpload,
-        onFinish: (files) => {
-          // All files are uploaded successfully at this point
-          const urls = files.map((f) => f.metadata.url);
-          console.log("Uploaded file URLs:", urls);
-        },
-      }}
-      config={{
-        mimeTypes: ["image/jpeg", "image/png", "application/pdf"],
-        maxFileSizeMb: 10,
-      }}
-    >
-      <FileUploadControl />
-    </UploadedFilesProvider>
-  );
-}
 ```
 
-### Example 2: Real-World AWS S3 Example
+### Example 2: AWS S3 Upload
 
 ```tsx
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
 async function handleS3Upload(
@@ -209,7 +155,6 @@ async function handleS3Upload(
     error?: { text: string; code: string }
   ) => void
 ): Promise<UploadFileResult[]> {
-  // Initialize the S3 client
   const s3Client = new S3Client({
     region: "your-region",
     credentials: {
@@ -223,10 +168,7 @@ async function handleS3Upload(
       try {
         if (!file.file) throw new Error("No file provided");
 
-        // Generate a unique key for the file
         const key = `uploads/${Date.now()}-${file.name}`;
-
-        // Create the upload
         const upload = new Upload({
           client: s3Client,
           params: {
@@ -234,9 +176,6 @@ async function handleS3Upload(
             Key: key,
             Body: file.file,
             ContentType: file.file.type,
-            // Optional: Set additional parameters
-            // ACL: 'public-read',
-            // Metadata: { /* your metadata */ }
           },
         });
 
@@ -248,10 +187,8 @@ async function handleS3Upload(
           onProgressChange(file.id, percentage);
         });
 
-        // Perform the upload
         await upload.done();
 
-        // Return success result with the S3 URL
         return {
           fileId: file.id,
           success: true,
@@ -260,7 +197,6 @@ async function handleS3Upload(
           },
         };
       } catch (error) {
-        console.error("S3 upload error:", error);
         return {
           fileId: file.id,
           success: false,
@@ -273,226 +209,218 @@ async function handleS3Upload(
     })
   );
 }
-
-// Usage with the UploadedFilesProvider
-function MyFileUpload() {
-  return (
-    <UploadedFilesProvider
-      handlers={{
-        onUpload: handleS3Upload,
-        onFinish: (files) => {
-          // All files are successfully uploaded at this point
-          const urls = files.map((f) => f.metadata.url);
-          console.log("Uploaded file URLs:", urls);
-        },
-      }}
-      config={{
-        mimeTypes: ["image/jpeg", "image/png", "application/pdf"],
-        maxFileSizeMb: 10,
-      }}
-    >
-      <FileUploadControl />
-    </UploadedFilesProvider>
-  );
-}
 ```
 
-### Understanding UploadFileResult
+## State Management
 
-The upload handler must return an array of `UploadFileResult` objects - one for each uploaded file. Here's the structure:
+The core package includes a built-in state machine that handles different upload states automatically. The `useUploadFilesProvider` hook gives you access to these states through the `smStatus` property and helper methods `smStatusIs` and `smStatusIsnt`.
+
+### Upload States
+
+The state machine handles the following states:
+
+- **IDLE**: Initial state and after successful operations
+- **PROCESSING**: During file transformations, uploads, or deletions
+- **ERROR**: When an upload operation fails
+- **RETRY**: When retrying after an error
+- **FINISHED**: After successful upload completion (if resetOnFinish is false)
+
+### State Transitions
+
+States change automatically based on different operations:
+
+1. **Adding Files**:
+
+   - IDLE → PROCESSING (during file transformation)
+   - PROCESSING → IDLE (after files are added)
+   - PROCESSING → ERROR (if error occurs)
+
+2. **Uploading Files**:
+
+   - IDLE/ERROR → PROCESSING (during upload)
+   - PROCESSING → IDLE (all uploads successful)
+   - PROCESSING → ERROR (if any upload fails)
+   - ERROR → RETRY (when retrying upload)
+   - IDLE → FINISHED (after successful upload if resetOnFinish is false)
+
+3. **Deleting Files**:
+   - IDLE → PROCESSING (during deletion)
+   - PROCESSING → IDLE (after deletion)
+
+### File States
+
+Individual files also have their own states through the `uploadStatus` property:
 
 ```typescript
-type UploadFileResult = {
-  // The ID of the file that was uploaded (must match the original file.id)
-  fileId: string;
-
-  // Whether the upload was successful
-  success: boolean;
-
-  // Optional error information if success is false
+interface UploadStatus {
+  stage: "IDLE" | "UPLOADING" | "FINISHED" | "FAILED";
+  progress: number;
   error?: {
-    text: string; // Human-readable error message
-    code: string; // Error code for programmatic handling
+    text: string;
+    code: string;
   };
-
-  // Optional metadata to attach to the file
-  metadata?: {
-    [key: string]: any; // Any additional data you want to store with the file
-  };
-};
-```
-
-Example of a successful upload result:
-
-```typescript
-{
-  fileId: "file123",
-  success: true,
-  metadata: {
-    url: "https://example.com/uploads/file123.jpg",
-    uploadedAt: "2025-01-02T12:00:00Z",
-    size: 1024000
-  }
 }
 ```
 
-Example of a failed upload result:
+The hook manages these states automatically during:
 
-```typescript
-{
-  fileId: "file456",
-  success: false,
-  error: {
-    text: "File size exceeds server limit",
-    code: "SIZE_LIMIT_EXCEEDED"
-  }
-}
-```
+- File validation
+- Pre-processing
+- Upload progress
+- Upload completion/failure
 
-## onDelete Handler
-
-The `onDelete` handler is designed to be non-blocking and does not include progress tracking. This is intentional for better UX - since it's primarily used for cleanup when resetting a control with already finished uploads. Users should be able to reset the control immediately without waiting for deletion to complete or being blocked by deletion errors.
-
-```typescript
-interface Props {
-  onDelete?: (files: UploadedFile[]) => void | Promise<void>;
-}
-```
-
-> Note: Unlike `onUpload`, the `onDelete` handler won't show progress or block the UI. This ensures users can quickly reset or clear their upload state without delays.
-
-## Core Components
-
-### FileUploadControl
-
-The default component that provides the file upload interface with a FileList and FileDropArea.
+### Usage Example
 
 ```tsx
-<FileUploadControl
-  size="auto" // 'auto' | 'sm' | 'lg'
-  disableCamera={false} // Disable camera integration
-  disableFileSystem={false} // Disable file system uploads
-/>
-```
+function MyUploadComponent() {
+  const { smStatus, smStatusIs, files, uploadAllFiles } =
+    useUploadFilesProvider();
 
-### UploadedFilesProvider
-
-The provider component that manages the upload state and configuration.
-
-```tsx
-<UploadedFilesProvider
-  config={{
-    mimeTypes: ["image/jpeg", "image/png"], // Allowed file types
-    maxFileSizeMb: 10, // Maximum file size in MB
-    multiple: true, // Allow multiple file uploads
-    maxFiles: 5, // Maximum number of files
-    locale: "en", // Locale for i18n
-    resetOnFinish: false, // Reset state after finish
-    disableSorting: false, // Disable drag-to-reorder functionality
-  }}
-  handlers={{
-    onUpload: handleUpload, // Upload handler function
-    onDelete: handleDelete, // Delete handler function
-    onFinish: handleFinish, // Finish handler function
-  }}
-/>
-```
-
-## API Reference
-
-### UploadedFilesProvider Props
-
-| Prop      | Type                                                                                                                                                                              | Default   | Description                                 |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------------- |
-| config    | { mimeTypes: string[], maxFileSizeMb: number, multiple: boolean, maxFiles: number, locale: string, resetOnFinish: boolean, disableSorting: boolean }                              | required  | Configuration object                        |
-| handlers  | { onUpload: (files: UploadedFile[]) => Promise<UploadFileResult[]>, onDelete: (files: UploadedFile[]) => Promise<UploadFileResult[]>, onFinish: (files: UploadedFile[]) => void } | required  | Handlers object                             |
-| children  | React.ReactNode                                                                                                                                                                   | required  | Child components to render                  |
-| initFiles | UploadedFile[]                                                                                                                                                                    | undefined | Initial files to populate the uploader with |
-| locale    | string                                                                                                                                                                            | 'en'      | Locale for internationalization             |
-
-### FileUploadControl Props
-
-| Prop              | Type                   | Default   | Description                 |
-| ----------------- | ---------------------- | --------- | --------------------------- |
-| size              | 'auto' \| 'sm' \| 'lg' | 'auto'    | Component size variant      |
-| disableCamera     | boolean                | false     | Disable camera integration  |
-| disableFileSystem | boolean                | false     | Disable file system uploads |
-| className         | string                 | undefined | Additional CSS classes      |
-
-## File Processing
-
-React Upload Control supports file processing through the optional [@osmandvc/react-upload-control-processors](https://www.npmjs.com/package/@osmandvc/react-upload-control-processors) package. This enables you to process files before or after upload, with built-in support for PDF manipulation and extensible architecture for custom processors.
-
-```bash
-npm install @osmandvc/react-upload-control-processors
-```
-
-### Example: PDF to JPEG Conversion
-
-```tsx
-import {
-  FileUploadControl,
-  UploadedFile,
-  UploadedFilesProvider,
-  UploadFileResult,
-} from "@osmandvc/react-upload-control";
-import { processPdfToJpeg } from "@osmandvc/react-upload-control-processors";
-
-function FileUploadTest() {
   return (
-    <div className="max-w-lg">
-      <UploadedFilesProvider
-        config={{
-          mimeTypes: ["image/png", "image/jpeg", "application/pdf"],
-          disableSorting: true,
-        }}
-        handlers={{
-          onUpload: handleUpload,
-          onFinish: handleFinish,
-          preProcessFiles: {
-            "application/pdf": processPdfToJpeg,
-          },
-        }}
-      >
-        <FileUploadControl />
-      </UploadedFilesProvider>
+    <div>
+      {smStatusIs("ERROR") && <div>Upload failed! Please try again.</div>}
+      {smStatusIs("PROCESSING") && <div>Processing...</div>}
+      {smStatusIs("FINISHED") && <div>Upload complete!</div>}
+
+      <button onClick={uploadAllFiles} disabled={smStatusIs("PROCESSING")}>
+        {smStatusIs("ERROR") ? "Retry Upload" : "Upload Files"}
+      </button>
     </div>
   );
 }
 ```
 
-You can see a demo of this in action [here](https://675c9582166050575d7b72e2-bzirycxazq.chromatic.com/?path=/story/examples-upload-control-with-pdf-pre-processing--default).
+## Error Handling
 
-## Creating Custom Upload Sources and Destinations
+The package provides two ways to handle errors:
 
-The `useUploadFilesProvider` hook allows you to create your own file sources (like drop areas) and file destinations (like file lists) with ease. The provider handles all the complex validation and state management for you.
+1. **Built-in Toast Notifications:** If you have `sonner` installed, the package will automatically show toast notifications for validation errors.
+2. **Custom Error Handler:** Provide your own `onAddFileError` handler in the provider props for custom error handling.
 
-The provider abstracts away:
+## API Reference
 
-- File validation (size, type, count)
-- Progress tracking
-- File state management
-- Error handling
-- Upload coordination
+### UploadedFilesProvider Props
 
-> 🔍 **Coming Soon**: Detailed documentation on creating custom upload components, handling file preprocessing, and implementing advanced validation logic.
+| Prop     | Type               | Description                         |
+| -------- | ------------------ | ----------------------------------- |
+| config   | `FileUploadConfig` | Configuration for file uploads      |
+| handlers | `UploadHandlers`   | Upload and error handling functions |
+| children | `ReactNode`        | Child components                    |
 
-## Customization
+### Config Options
 
-React Upload Control is highly customizable. You can tailor it to meet your specific needs by adjusting its configuration and using its extensive API. <i> Detailed documentation coming soon. </i>
+```typescript
+interface FileUploadConfig {
+  mimeTypes: string[]; // Allowed file types
+  maxFileSizeMb: number; // Maximum file size in MB
+  multiple?: boolean; // Allow multiple file uploads
+  maxFiles?: number; // Maximum number of files
+  resetOnFinish?: boolean; // Reset state after finish
+  disableSorting?: boolean; // Disable drag-to-reorder
+}
+```
+
+### Handler Types
+
+```typescript
+interface UploadHandlers {
+  onUpload: (
+    files: UploadedFile[],
+    onProgressChange: OnProgressCallback
+  ) => Promise<UploadFileResult[]> | UploadFileResult[];
+  onDelete?: (files: UploadedFile[]) => Promise<void> | void;
+  onFinish?: (files: UploadedFile[]) => void;
+  onAddFileError?: (error: FileDropError | unknown) => void;
+}
+```
+
+Example usage of progress callback:
+
+```typescript
+import {
+  OnProgressCallback,
+  UploadProgressError,
+} from "@osmandvc/react-upload-control";
+
+function MyUploadComponent() {
+  return (
+    <UploadedFilesProvider
+      config={{
+        mimeTypes: ["image/jpeg", "image/png"],
+        maxFileSizeMb: 10,
+      }}
+      handlers={{
+        onUpload: async (files, onProgressChange) => {
+          try {
+            for (const file of files) {
+              // Update progress as the upload proceeds
+              onProgressChange(file.id, 30);
+
+              // ... upload logic ...
+
+              // Upload complete
+              onProgressChange(file.id, 100);
+            }
+            return files.map((file) => ({
+              fileId: file.id,
+              success: true,
+            }));
+          } catch (error) {
+            // Handle error case
+            onProgressChange(file.id, 0, {
+              text: "Upload failed",
+              code: "UPLOAD_ERROR",
+            });
+            return [
+              {
+                fileId: file.id,
+                success: false,
+                error: { text: "Upload failed", code: "UPLOAD_ERROR" },
+              },
+            ];
+          }
+        },
+      }}
+    >
+      <YourConsumingComponent />
+    </UploadedFilesProvider>
+  );
+}
+```
+
+## Hook Return Values
+
+The `useUploadFilesProvider` hook returns an object with the following properties:
+
+### File Management
+
+- `files`: Array of currently uploaded files
+- `addFiles`: Function to add new files to the upload queue
+- `removeFile`: Function to remove a specific file from the queue
+- `updateFile`: Function to update properties of a specific file
+- `uploadAllFiles`: Function to start uploading all files in the queue
+- `deleteFile`: Function to delete a specific uploaded file
+- `deleteAllFiles`: Function to delete all uploaded files
+- `getFile`: Function to retrieve a specific file by its ID
+- `setFiles`: Function to directly set the files array
+- `resetControl`: Function to reset the upload control to its initial state
+- `moveFile`: Function to change the order of a file. Takes a fileId and direction (-1 for up, 1 for down)
+
+### Status Management
+
+- `smStatus`: Current status of the state machine
+- `smStatusIs`: Function to check if the current status matches a specific status
+- `smStatusIsnt`: Function to check if the current status does not match a specific status
+
+### Validation
+
+- `getValidationInfo`: Function to get validation information for files
+- `disableSorting`: Property to disable file sorting functionality
 
 ## Contributing
 
 We welcome contributions from the community. Feel free to open issues or submit pull requests on our [GitHub repository](https://github.com/osmandvc/react-upload-control).
 
-Please note that while React Upload Control is in an early state and has been battle-tested, bugs may still appear. We would appreciate it if you report any issues you encounter so they can be fixed as soon as possible. Contributions to improve the library are **very welcome**.
-
-Because the library is in its early stages, **we are open to suggestions and feedback. If you have any ideas for new features or enhancements, please don't hesitate to share them with us.**
-
 ## License
 
-This project is licensed under the MIT License.
-
----
-
-MIT © Osman Deveci
+MIT © [osmandvc](https://github.com/osmandvc)

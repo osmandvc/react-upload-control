@@ -12,6 +12,24 @@
     "dist",
     "README.md"
   ],
+  "keywords": [
+    "react",
+    "react-upload",
+    "react-upload-control",
+    "file-upload",
+    "drag-and-drop",
+    "upload",
+    "typescript",
+    "react-component",
+    "file-uploader",
+    "react18",
+    "tailwindcss",
+    "camera-upload",
+    "image-upload",
+    "file-preview",
+    "multiple-upload",
+    "async-upload"
+  ],
   "scripts": {
     "build": "rollup -c",
     "test": "jest",

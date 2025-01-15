@@ -27,7 +27,6 @@ export interface ContextProps {
   deleteAllFiles: () => Promise<void>;
   addFiles: (files: File[]) => void;
   removeFile: (fileId: string) => void;
-  updateFileStage: (name: string, status: UploadedFileItemStage) => void;
   getFile: (id: string) => UploadedFile | undefined;
   smStatusIs: (...args: string[]) => boolean;
   smStatusIsnt: (...args: string[]) => boolean;
@@ -35,6 +34,7 @@ export interface ContextProps {
   resetControl: (files: UploadedFile[]) => void;
   getValidationInfo: () => { types: string[]; maxFileSizeMb: number };
   disableSorting: boolean;
+  moveFile: (fileId: string, direction: 1 | -1) => void;
 }
 
 const UploadedFilesContext = createContext<ContextProps | undefined>(undefined);
@@ -439,25 +439,43 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     setFiles([]);
   }
 
+  function moveFile(fileId: string, direction: 1 | -1) {
+    if (disableSorting) return;
+
+    setFiles((prevFiles) => {
+      const fileIndex = prevFiles.findIndex((file) => file.id === fileId);
+      if (fileIndex === -1) return prevFiles;
+
+      const newIndex = fileIndex + direction;
+      if (newIndex < 0 || newIndex >= prevFiles.length) return prevFiles;
+
+      const newFiles = [...prevFiles];
+      const [movedFile] = newFiles.splice(fileIndex, 1);
+      newFiles.splice(newIndex, 0, movedFile);
+
+      return reorderFiles(newFiles);
+    });
+  }
+
   return (
     <UploadedFilesContext.Provider
       value={{
         files,
-        addFiles,
-        removeFile,
+        smStatus,
         updateFile,
         uploadAllFiles,
         deleteFile,
         deleteAllFiles,
-        updateFileStage,
+        addFiles,
+        removeFile,
         getFile,
-        smStatus,
         smStatusIs,
         smStatusIsnt,
         setFiles,
         resetControl,
         getValidationInfo,
         disableSorting,
+        moveFile,
       }}
     >
       {children}
