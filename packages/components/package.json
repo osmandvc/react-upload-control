@@ -12,6 +12,13 @@
     "dist",
     "README.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osmandvc/react-upload-control.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "react",
     "react-upload",
@@ -35,7 +42,8 @@
     "test": "jest",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.2.0",
