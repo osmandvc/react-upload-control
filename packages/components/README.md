@@ -73,54 +73,12 @@ The main component that combines all features:
 />
 ```
 
-### FileDropArea
-
-Standalone drag & drop area:
-
-```tsx
-<FileDropArea
-  onFilesDrop={(files) => {
-    // Handle dropped files
-  }}
-  accept={["image/*"]}
-  multiple={true}
-/>
-```
-
-### FileList
-
-Standalone file list with reordering:
-
-```tsx
-<FileList
-  files={files}
-  onReorder={(newFiles) => {
-    // Handle reordered files
-  }}
-  onDelete={(fileId) => {
-    // Handle file deletion
-  }}
-/>
-```
-
 ## Why a Separate Components Package?
 
 1. **Flexibility:** Use only what you need. If you want to build your own UI, you can use just the core package
 2. **Bundle Size:** Keep your bundle size minimal by only including the components you use
 3. **Styling Freedom:** The components package includes styles, but you can build your own UI using the core package
 4. **Independent Updates:** UI components can be updated without affecting core functionality
-
-## Customization
-
-All components accept className props for custom styling. The components are built with Tailwind CSS, but you can override styles as needed:
-
-```tsx
-<FileUploadControl
-  className="custom-container"
-  dropAreaClassName="custom-drop-area"
-  fileListClassName="custom-file-list"
-/>
-```
 
 ## Contributing
 

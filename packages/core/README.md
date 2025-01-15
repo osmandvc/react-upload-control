@@ -316,7 +316,7 @@ interface FileUploadConfig {
   multiple?: boolean; // Allow multiple file uploads
   maxFiles?: number; // Maximum number of files
   resetOnFinish?: boolean; // Reset state after finish
-  disableSorting?: boolean; // Disable drag-to-reorder
+  disableSorting?: boolean; // Disable reordering
 }
 ```
 
