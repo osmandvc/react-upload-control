@@ -68,7 +68,6 @@
     "@babel/preset-env": "^7.25.8",
     "@babel/preset-react": "^7.25.7",
     "@babel/preset-typescript": "^7.25.7",
-    "@osmandvc/react-upload-control-processors": "file:../processors/osmandvc-react-upload-control-processors-0.0.1.tgz",
     "@rollup/plugin-json": "^6.1.0",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-interactions": "^8.3.6",

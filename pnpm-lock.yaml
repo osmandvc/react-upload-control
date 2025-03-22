@@ -103,8 +103,8 @@ importers:
         specifier: ^7.25.7
         version: 7.26.0(@babel/core@7.26.0)
       '@osmandvc/react-upload-control-processors':
-        specifier: file:../processors/osmandvc-react-upload-control-processors-0.0.1.tgz
-        version: file:packages/processors/osmandvc-react-upload-control-processors-0.0.1.tgz
+        specifier: workspace:*
+        version: link:../processors
       '@rollup/plugin-json':
         specifier: ^6.1.0
         version: 6.1.0(rollup@2.79.2)
