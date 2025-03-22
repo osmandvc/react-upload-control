@@ -22,6 +22,12 @@ jobs:
           node-version: 18
           cache: 'pnpm'
       - run: pnpm install
+        #👇 Build all packages before running Chromatic
+      - name: Build packages
+        run: |
+          pnpm --filter "@osmandvc/react-upload-control-shared" build
+          pnpm --filter "@osmandvc/react-upload-control-processors" build
+          pnpm --filter "@osmandvc/react-upload-control" build
         #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@latest
         # Options required for Chromatic's GitHub Action
