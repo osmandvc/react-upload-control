@@ -9,7 +9,7 @@ The core package of React Upload Control, providing the essential hooks and prov
 ## Demo
 
 Check out our interactive demo cases here:  
-[React Upload Control Demo](https://675c9582166050575d7b72e2-bzirycxazq.chromatic.com)
+[React Upload Control Demo](https://main--675c9582166050575d7b72e2.chromatic.com)
 
 ## Why React Upload Control? 🤷‍♂️
 

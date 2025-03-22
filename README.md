@@ -41,7 +41,7 @@ npm install @osmandvc/react-upload-control-components
 ## Demo
 
 Check out our interactive demo:  
-[React Upload Control Demo](https://675c9582166050575d7b72e2-bzirycxazq.chromatic.com)
+[React Upload Control Demo](https://main--675c9582166050575d7b72e2.chromatic.com)
 
 ## Development
 
