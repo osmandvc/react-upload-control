@@ -235,9 +235,6 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.25.7
         version: 7.26.0(@babel/core@7.26.0)
-      '@osmandvc/react-upload-control-processors':
-        specifier: file:../processors/osmandvc-react-upload-control-processors-0.0.1.tgz
-        version: file:packages/processors/osmandvc-react-upload-control-processors-0.0.1.tgz
       '@rollup/plugin-json':
         specifier: ^6.1.0
         version: 6.1.0(rollup@2.79.2)
@@ -343,6 +340,9 @@ importers:
 
   packages/processors:
     dependencies:
+      nanoid:
+        specifier: ^5.0.0
+        version: 5.1.5
       pdf-lib:
         specifier: ^1.17.1
         version: 1.17.1
@@ -1428,10 +1428,6 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
-
-  '@osmandvc/react-upload-control-processors@file:packages/processors/osmandvc-react-upload-control-processors-0.0.1.tgz':
-    resolution: {integrity: sha512-rjgH4RTQexAPZmDB5LQf9IadYtxf8Yu1dpLQlD9TZAZLZ4S9tOx4Rp1W3Sm/8V9J7B5tR3hIA6z15nAb+iWjrA==, tarball: file:packages/processors/osmandvc-react-upload-control-processors-0.0.1.tgz}
-    version: 0.0.1
 
   '@pdf-lib/standard-fonts@1.0.0':
     resolution: {integrity: sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA==}
@@ -4263,6 +4259,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@5.1.5:
+    resolution: {integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+
   needle@3.3.1:
     resolution: {integrity: sha512-6k0YULvhpw+RoLNiQCRKOl09Rv1dPLr8hHnVjHqdolKwDrdNyk+Hmrthi4lIGPPz3r39dLx0hsF5s40sZ3Us4Q==}
     engines: {node: '>= 4.4.x'}
@@ -6801,12 +6802,6 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.18.0
-
-  '@osmandvc/react-upload-control-processors@file:packages/processors/osmandvc-react-upload-control-processors-0.0.1.tgz':
-    dependencies:
-      '@types/pdfjs-dist': 2.10.378
-      pdf-lib: 1.17.1
-      pdfjs-dist: 4.10.38
 
   '@pdf-lib/standard-fonts@1.0.0':
     dependencies:
@@ -10019,6 +10014,8 @@ snapshots:
       thenify-all: 1.6.0
 
   nanoid@3.3.8: {}
+
+  nanoid@5.1.5: {}
 
   needle@3.3.1:
     dependencies:
