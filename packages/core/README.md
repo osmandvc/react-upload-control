@@ -396,7 +396,6 @@ The `useUploadFilesProvider` hook returns an object with the following propertie
 
 - `files`: Array of currently uploaded files
 - `addFiles`: Function to add new files to the upload queue
-- `removeFile`: Function to remove a specific file from the queue
 - `updateFile`: Function to update properties of a specific file
 - `uploadAllFiles`: Function to start uploading all files in the queue
 - `deleteFile`: Function to delete a specific uploaded file

@@ -26,7 +26,6 @@ export interface ContextProps {
   deleteFile: (fileId: string) => Promise<void>;
   deleteAllFiles: () => Promise<void>;
   addFiles: (files: File[]) => void;
-  removeFile: (fileId: string) => void;
   getFile: (id: string) => UploadedFile | undefined;
   smStatusIs: (...args: string[]) => boolean;
   smStatusIsnt: (...args: string[]) => boolean;
@@ -89,6 +88,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     return {
       types: mimeTypes.map((type) => type.split("/")[1]),
       maxFileSizeMb,
+      multiple,
     };
   }
 
@@ -467,7 +467,6 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
         deleteFile,
         deleteAllFiles,
         addFiles,
-        removeFile,
         getFile,
         smStatusIs,
         smStatusIsnt,
