@@ -1,3 +1,5 @@
 // Core functionality
-export { UploadedFilesProvider, useUploadFilesProvider } from "./providers";
+export { UploadedFilesProvider } from "./providers";
+// Specialized hooks for better DX
+export * from "./hooks";
 export * from "./types";

@@ -21,19 +21,23 @@ import {
 export interface ContextProps {
   files: UploadedFile[];
   smStatus: string;
-  updateFile: (name: string, uploadedFileProps: Partial<UploadedFile>) => void;
   uploadAllFiles: () => Promise<void>;
   deleteFile: (fileId: string) => Promise<void>;
   deleteAllFiles: () => Promise<void>;
   addFiles: (files: File[]) => void;
   getFile: (id: string) => UploadedFile | undefined;
-  smStatusIs: (...args: string[]) => boolean;
-  smStatusIsnt: (...args: string[]) => boolean;
+  updateFile: (id: string, props: Partial<UploadedFile>) => void;
   setFiles: React.Dispatch<React.SetStateAction<UploadedFile[]>>;
   resetControl: (files: UploadedFile[]) => void;
   getValidationInfo: () => { types: string[]; maxFileSizeMb: number };
   disableSorting: boolean;
   moveFile: (fileId: string, direction: 1 | -1) => void;
+  isIdle: boolean;
+  isProcessing: boolean;
+  isFinished: boolean;
+  isError: boolean;
+  isReady: boolean;
+  isPending: boolean;
 }
 
 const UploadedFilesContext = createContext<ContextProps | undefined>(undefined);
@@ -63,8 +67,14 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
 
   const [files, setFiles] = useState(initFiles ?? []);
 
-  const { smStatus, smSetStatus, smStatusIs, smStatusIsnt } =
-    useStateMachine("IDLE");
+  const { smStatus, smSetStatus, smStatusIs } = useStateMachine("IDLE");
+
+  const isIdle = smStatusIs("IDLE");
+  const isProcessing = smStatusIs("PROCESSING");
+  const isFinished = smStatusIs("FINISHED");
+  const isError = smStatusIs("ERROR");
+  const isReady = smStatusIs("READY");
+  const isPending = smStatusIs("PENDING");
 
   const showError = async (error: FileDropError | unknown) => {
     if (onAddFileError) {
@@ -93,7 +103,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
   }
 
   function checkIfAllFilesFinished(files: UploadedFile[]) {
-    if (!files.length || smStatusIs("PROCESSING")) return false;
+    if (!files.length || isProcessing) return false;
 
     return files.every(
       (file) => file.uploadStatus.stage === UploadedFileItemStage.FINISHED
@@ -352,7 +362,7 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
   async function uploadAllFiles() {
     if (!onUpload)
       throw new Error("Provider has no onUpload function defined.");
-    smStatusIs("ERROR") ? smSetStatus("RETRY") : smSetStatus("PROCESSING");
+    isError ? smSetStatus("RETRY") : smSetStatus("PROCESSING");
     try {
       const results = await onUpload(
         files.filter(
@@ -421,19 +431,6 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
     }
   }
 
-  function updateFileStage(id: string, stage: UploadedFileItemStage) {
-    setFiles((prevFiles) =>
-      prevFiles.map((file) => {
-        if (file.id !== id) return file;
-        const newFile: UploadedFile = {
-          ...file,
-        };
-        newFile.uploadStatus.stage = stage;
-        return newFile;
-      })
-    );
-  }
-
   function resetControl() {
     smSetStatus("IDLE");
     setFiles([]);
@@ -468,13 +465,17 @@ const UploadedFilesManager = (props: UploadedFilesManagerProps) => {
         deleteAllFiles,
         addFiles,
         getFile,
-        smStatusIs,
-        smStatusIsnt,
         setFiles,
         resetControl,
         getValidationInfo,
         disableSorting,
         moveFile,
+        isIdle,
+        isProcessing,
+        isFinished,
+        isError,
+        isReady,
+        isPending,
       }}
     >
       {children}
